@@ -53,7 +53,7 @@ class OnboardingSignupCard extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const HeaderText(text: 'Welcome!'),
+                const HeaderText('Welcome!'),
                 const SizedBox(height: 25.0),
                 const SubheaderText(
                   'Use your email to create a new account',

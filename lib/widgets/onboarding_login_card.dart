@@ -40,7 +40,7 @@ class OnboardingLoginCard extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const HeaderText(text: 'Hi again!'),
+                const HeaderText('Hi again!'),
                 const SizedBox(height: 25.0),
                 const SubheaderText(
                   'Glad to see you back. Let\'s get back to business.',
