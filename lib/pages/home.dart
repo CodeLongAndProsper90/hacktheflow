@@ -4,6 +4,7 @@ import 'package:hacktheflow/backend/user.dart';
 import 'package:hacktheflow/main.dart';
 import 'package:hacktheflow/widgets/message.dart';
 import 'package:hacktheflow/backend/message.dart';
+import 'package:hacktheflow/backend/listing.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -28,16 +29,12 @@ class HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Text("Main page"),
-            TextField(
-                decoration: InputDecoration(labelText: "message"),
-                controller: msgCon),
             TextButton(
-                child: Text("Send"),
+                child: Text("Add Listing"),
                 onPressed: () async {
-                  await send(
-                      to: "b7891604-2cff-48bb-ad00-bc9097af1086",
-                      contents: msgCon.text);
-                }),
+									await addListing("Test", "This is a test", "b7891604-2cff-48bb-ad00-bc9097af1086", []);
+								}
+						),
             TextButton(
                 child: Text("Sign out"),
                 onPressed: () async {
