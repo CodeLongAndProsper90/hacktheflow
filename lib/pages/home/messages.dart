@@ -3,9 +3,15 @@ import 'package:hacktheflow/colors.dart';
 import 'package:hacktheflow/widgets/message_bubble.dart';
 import 'package:hacktheflow/widgets/styled_text.dart';
 import 'package:hacktheflow/backend/message.dart';
+import 'package:hacktheflow/backend/user.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+final supabase = Supabase.instance.client;
 
 class HomeMessagesPage extends StatefulWidget {
-  const HomeMessagesPage({super.key});
+  final String to_id;
+
+  const HomeMessagesPage({super.key, required this.to_id});
 
   @override
   State<HomeMessagesPage> createState() => _HomeMessagesPageState();
@@ -14,20 +20,12 @@ class HomeMessagesPage extends StatefulWidget {
 class _HomeMessagesPageState extends State<HomeMessagesPage> {
   final name = "John Doe";
   final status = "Online";
-
   List<Widget> messages = [
     MessageBubble(
       senderName: 'Jane Doe',
       contents: 'Lorem ipsum dolor sit amet',
       sentAt: DateTime.now(),
       clientSent: true,
-    ),
-    MessageBubble(
-      senderName: 'Jane Doe',
-      contents:
-          'Lorem ipsum dolor sit amet\nawdoihawoidhawod\nawdoihawoidhawod\nawdoihawoidhawod\nawdoihawoidhawod',
-      sentAt: DateTime.now(),
-      clientSent: false,
     ),
   ];
 
@@ -51,29 +49,42 @@ class _HomeMessagesPageState extends State<HomeMessagesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 20.0,
-            horizontal: 20.0,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+    return FutureBuilder(
+        future:
+            Future.wait([getUser(widget.to_id), getMessagesTo(widget.to_id)]),
+        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+          if (!snapshot.hasData) return CircularProgressIndicator();
+          print(snapshot.data);
+          AppUser user = snapshot.data![0];
+          List<Message> messages = snapshot.data![1];
+          List<Widget> messageWidgets = messages
+              .map(
+                (data) => MessageBubble(
+                  senderName: user.name,
+                  contents: data.content,
+                  sentAt: data.created_at,
+                  clientSent: data.mine,
+                ),
+              )
+              .toList();
+          return Scaffold(
+            appBar: AppBar(
+              titleSpacing: 16.0,
+              backgroundColor: colorBackground,
+              leading: IconButton(
+                onPressed: () async {
+                  // pop
+                },
+                icon: const Icon(
+                  Icons.arrow_back_ios_rounded,
+                  color: colorForeground,
+                ),
+              ),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    onPressed: () async {
-                      // pop
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_rounded,
-                      color: colorForeground,
-                    ),
-                  ),
-                  const SizedBox(width: 16.0),
                   Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       CircleAvatar(
                         child: Text(
@@ -83,7 +94,7 @@ class _HomeMessagesPageState extends State<HomeMessagesPage> {
                               .join(''),
                         ),
                       ),
-                      const SizedBox(width: 16.0),
+                      SizedBox(width: 8.0),
                       Wrap(
                         direction: Axis.vertical,
                         children: [
@@ -94,29 +105,25 @@ class _HomeMessagesPageState extends State<HomeMessagesPage> {
                       ),
                     ],
                   ),
+                  IconButton(
+                    onPressed: () {
+                      // pop
+                    },
+                    icon: const Icon(
+                      Icons.settings,
+                      color: colorForeground,
+                    ),
+                  ),
                 ],
               ),
-              IconButton(
-                onPressed: () {
-                  // pop
-                },
-                icon: const Icon(
-                  Icons.settings,
-                  color: colorForeground,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: messages.length,
-            itemBuilder: (context, index) {
-              return messages[index];
-            },
-          ),
-        ),
-      ],
-    );
+            ),
+            body: ListView.builder(
+              itemCount: messageWidgets.length,
+              itemBuilder: (context, index) {
+                return messageWidgets[index];
+              },
+            ),
+          );
+        });
   }
 }

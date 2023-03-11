@@ -50,7 +50,7 @@ class HomePageState extends State<HomePage> {
           HomeDiscoverPage(),
           MessagingHub(),
           // Messanger(personconnected: 'Jane Doe'),
-          // HomeMessagesPage(),
+          // HomeMessagesPage(to_id: "b7891604-2cff-48bb-ad00-bc9097af1086"),
           HomeProfilePage(),
         ][_pageIndex],
       ),

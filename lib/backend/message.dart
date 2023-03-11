@@ -48,7 +48,7 @@ Future<Message?> getSentMessage(String user_id) async {
 	print(data);
 }
 
-Future<List<Message>?> getMessageTo(String user_id) async {
+Future<List<Message>?> getMessagesTo(String user_id) async {
 	var data = await supabase.from("messages").select<List<Map<String, dynamic>>>().eq("rec_id", user_id);
 	List<Message> msgs = [];
 	for (Map<String, dynamic> json in data)
