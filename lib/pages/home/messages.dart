@@ -50,80 +50,84 @@ class _HomeMessagesPageState extends State<HomeMessagesPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future:
-            Future.wait([getUser(widget.to_id), getMessagesTo(widget.to_id)]),
-        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-          if (!snapshot.hasData) return CircularProgressIndicator();
-          print(snapshot.data);
-          AppUser user = snapshot.data![0];
-          List<Message> messages = snapshot.data![1];
-          List<Widget> messageWidgets = messages
-              .map(
-                (data) => MessageBubble(
-                  senderName: user.name,
-                  contents: data.content,
-                  sentAt: data.created_at,
-                  clientSent: data.mine,
-                ),
-              )
-              .toList();
-          return Scaffold(
-            appBar: AppBar(
-              titleSpacing: 16.0,
-              backgroundColor: colorBackground,
-              leading: IconButton(
-                onPressed: () async {
-                  // pop
-                },
-                icon: const Icon(
-                  Icons.arrow_back_ios_rounded,
-                  color: colorForeground,
-                ),
-              ),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CircleAvatar(
-                        child: Text(
-                          name
-                              .split(' ')
-                              .map((e) => e[0].toUpperCase())
-                              .join(''),
-                        ),
-                      ),
-                      SizedBox(width: 8.0),
-                      Wrap(
-                        direction: Axis.vertical,
-                        children: [
-                          PageTitleText(name),
-                          BodyText(status,
-                              style: const TextStyle(color: colorHint)),
-                        ],
-                      ),
-                    ],
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      // pop
-                    },
-                    icon: const Icon(
-                      Icons.settings,
-                      color: colorForeground,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            body: ListView.builder(
-              itemCount: messageWidgets.length,
-              itemBuilder: (context, index) {
-                return messageWidgets[index];
-              },
-            ),
+      future: Future.wait([getUser(widget.to_id), getMessagesTo(widget.to_id)]),
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
-        });
+        }
+
+        print(snapshot.data);
+        AppUser user = snapshot.data![0];
+        List<Message> messages = snapshot.data![1];
+        List<Widget> messageWidgets = messages
+            .map(
+              (data) => MessageBubble(
+                senderName: user.name,
+                contents: data.content,
+                sentAt: data.created_at,
+                clientSent: data.mine,
+              ),
+            )
+            .toList();
+        return Scaffold(
+          appBar: AppBar(
+            titleSpacing: 16.0,
+            backgroundColor: colorBackground,
+            leading: IconButton(
+              onPressed: () async {
+                // pop
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios_rounded,
+                color: colorForeground,
+              ),
+            ),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircleAvatar(
+                      child: Text(
+                        name.split(' ').map((e) => e[0].toUpperCase()).join(''),
+                      ),
+                    ),
+                    SizedBox(width: 8.0),
+                    Wrap(
+                      direction: Axis.vertical,
+                      children: [
+                        PageTitleText(name),
+                        BodyText(
+                          status,
+                          style: const TextStyle(color: colorHint),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                IconButton(
+                  onPressed: () {
+                    // pop
+                  },
+                  icon: const Icon(
+                    Icons.settings,
+                    color: colorForeground,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          body: ListView.builder(
+            itemCount: messageWidgets.length,
+            itemBuilder: (context, index) {
+              return messageWidgets[index];
+            },
+          ),
+        );
+      },
+    );
   }
 }
