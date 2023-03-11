@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hacktheflow/colors.dart';
 import 'package:hacktheflow/widgets/message_bubble.dart';
 import 'package:hacktheflow/widgets/styled_text.dart';
+import 'package:hacktheflow/backend/message.dart';
 
 class HomeMessagesPage extends StatefulWidget {
   const HomeMessagesPage({super.key});
@@ -55,7 +56,7 @@ class _HomeMessagesPageState extends State<HomeMessagesPage> {
         titleSpacing: 16.0,
         backgroundColor: colorBackground,
         leading: IconButton(
-          onPressed: () {
+          onPressed: () async {
             // pop
           },
           icon: const Icon(

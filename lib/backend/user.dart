@@ -1,3 +1,8 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:typed_data';
+final supabase = Supabase.instance.client;
+
 class User {
 	String id;
 	String username;
