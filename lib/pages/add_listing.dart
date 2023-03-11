@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hacktheflow/colors.dart';
 import 'package:hacktheflow/widgets/styled_text.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:typed_data';
 
 class AddListingPage extends StatefulWidget {
   const AddListingPage({super.key});
@@ -27,13 +28,24 @@ class _AddListingPageState extends State<AddListingPage> {
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: (image != null ?
+								<Widget>[FutureBuilder(
+									future: image!.readAsBytes(),
+									builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
+										if (!snapshot.hasData)
+											return CircularProgressIndicator();
+										return Image.memory(snapshot.data!);
+									}
+								)] : <Widget>[ ] ) +
+							<Widget>[
                 TextButton(
                   child: Text("Take photo"),
                   onPressed: () async {
                     XFile? img = await _p.pickImage(source: ImageSource.camera);
                     if (img == null) return;
-                    image = img;
+										setState(() {
+											image = img;
+										});
                   },
                 ),
                 Form(

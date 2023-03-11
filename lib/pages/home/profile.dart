@@ -5,6 +5,7 @@ import 'package:hacktheflow/widgets/styled_text.dart';
 import 'package:hacktheflow/backend/zip.dart';
 import 'package:hacktheflow/backend/user.dart';
 import 'package:hacktheflow/main.dart';
+import 'package:hacktheflow/pages/add_listing.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
@@ -95,6 +96,12 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
 									Navigator.of(context).push(MaterialPageRoute(builder: (context) => StartWidget(title: "Wynzo")));
 								}
 							),
+							TextButton(
+								child: Text("Add a listing"),
+								onPressed: () {
+									Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddListingPage()));
+								}
+							)
             ],
           ),
         );
