@@ -83,9 +83,8 @@ class _MainpageState extends State<Mainpage> {
           TextButton(
               child: Text("Add Listing"),
               onPressed: () async {
-                print(images.runtimeType.toString());
                 await addListing("Test", "This is a test",
-                    "b7891604-2cff-48bb-ad00-bc9097af1086", images);
+                    "2fa01d64-8b12-4bce-9981-b8521ae23482", images);
               }),
           TextButton(
             child: Text("Sign out"),
