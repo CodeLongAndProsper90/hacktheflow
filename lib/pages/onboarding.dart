@@ -56,10 +56,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     children: [
                       Image.asset(
                         'assets/images/bg_towers.jpg',
-
                         height: screenHeight * 0.55,
                         width: screenWidth,
-
                         fit: BoxFit.cover,
                         alignment: Alignment.bottomCenter,
                       ),

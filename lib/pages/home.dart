@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:hacktheflow/pages/home/discover.dart';
 import 'package:hacktheflow/pages/messaginghub.dart';
+import 'package:hacktheflow/widgets/messaging_room.dart';
 import 'package:hacktheflow/widgets/navbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -45,10 +46,11 @@ class HomePageState extends State<HomePage> {
       },
       child: SafeArea(
         child: [
-          Mainpage(),
-          // HomeDiscoverPage(),
-          // MessagingHub(),
-          HomeMessagesPage(),
+          // Mainpage(),
+          HomeDiscoverPage(),
+          MessagingHub(),
+          // Messanger(personconnected: 'Jane Doe'),
+          // HomeMessagesPage(),
           HomeProfilePage(),
         ][_pageIndex],
       ),

@@ -20,7 +20,8 @@ class _NavbarState extends State<Navbar> {
     return Stack(
       fit: StackFit.expand,
       children: [
-        SingleChildScrollView(child: widget.child),
+        // SingleChildScrollView(child: widget.child),
+        widget.child,
         Positioned(
           bottom: 0,
           child: _innerNavbar(),
@@ -82,6 +83,8 @@ class _NavbarState extends State<Navbar> {
       child: GestureDetector(
         onTap: () {
           setState(() {
+            // TODO: hide keyboard before switching (v doesnt work)
+            // FocusManager.instance.primaryFocus?.unfocus();
             _pageIndex = targetIndex;
             widget.onChange(targetIndex);
           });

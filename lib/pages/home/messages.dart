@@ -51,58 +51,72 @@ class _HomeMessagesPageState extends State<HomeMessagesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 16.0,
-        backgroundColor: colorBackground,
-        leading: IconButton(
-          onPressed: () async {
-            // pop
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_rounded,
-            color: colorForeground,
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 20.0,
+            horizontal: 20.0,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () async {
+                      // pop
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios_rounded,
+                      color: colorForeground,
+                    ),
+                  ),
+                  const SizedBox(width: 16.0),
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        child: Text(
+                          name
+                              .split(' ')
+                              .map((e) => e[0].toUpperCase())
+                              .join(''),
+                        ),
+                      ),
+                      const SizedBox(width: 16.0),
+                      Wrap(
+                        direction: Axis.vertical,
+                        children: [
+                          PageTitleText(name),
+                          BodyText(status,
+                              style: const TextStyle(color: colorHint)),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              IconButton(
+                onPressed: () {
+                  // pop
+                },
+                icon: const Icon(
+                  Icons.settings,
+                  color: colorForeground,
+                ),
+              ),
+            ],
           ),
         ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircleAvatar(
-                  child: Text(
-                    name.split(' ').map((e) => e[0].toUpperCase()).join(''),
-                  ),
-                ),
-                SizedBox(width: 8.0),
-                Wrap(
-                  direction: Axis.vertical,
-                  children: [
-                    PageTitleText(name),
-                    BodyText(status, style: const TextStyle(color: colorHint)),
-                  ],
-                ),
-              ],
-            ),
-            IconButton(
-              onPressed: () {
-                // pop
-              },
-              icon: const Icon(
-                Icons.settings,
-                color: colorForeground,
-              ),
-            ),
-          ],
+        Expanded(
+          child: ListView.builder(
+            itemCount: messages.length,
+            itemBuilder: (context, index) {
+              return messages[index];
+            },
+          ),
         ),
-      ),
-      body: ListView.builder(
-        itemCount: messages.length,
-        itemBuilder: (context, index) {
-          return messages[index];
-        },
-      ),
+      ],
     );
   }
 }
