@@ -69,7 +69,7 @@ class _HomeOpenChatsPageState extends State<HomeOpenChatsPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const LogoText('Wyzno'),
+                    const LogoText('Wynzo'),
                     ProfilePicture(name: user.name, radius: 40.0),
                   ],
                 ),
@@ -112,8 +112,8 @@ class _HomeOpenChatsPageState extends State<HomeOpenChatsPage> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            trailing:
-                                SmallText(timestampToString(chat['date'].toLocal())),
+                            trailing: SmallText(
+                                timestampToString(chat['date'].toLocal())),
                           ),
                         );
                       },
