@@ -4,6 +4,7 @@ import 'package:hacktheflow/colors.dart';
 import 'package:hacktheflow/widgets/styled_text.dart';
 import 'package:hacktheflow/backend/zip.dart';
 import 'package:hacktheflow/backend/user.dart';
+import 'package:hacktheflow/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
@@ -73,6 +74,27 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
               ),
               const SizedBox(height: 10.0),
               SubheaderText(cityName),
+							const SizedBox(height: 15.0),
+							TextButton(
+								child: Container(
+									padding: const EdgeInsets.symmetric(
+										vertical: 10.0,
+										horizontal: 20.0,
+									),
+									decoration: BoxDecoration(
+										color: Colors.red,
+										borderRadius: BorderRadius.circular(100.0),
+									),
+									child: Text(
+										"Sign out",
+										style: const TextStyle(color: colorBackground),
+									),
+								),
+								onPressed: () async {
+									await supabase.auth.signOut();
+									Navigator.of(context).push(MaterialPageRoute(builder: (context) => StartWidget(title: "Wynzo")));
+								}
+							),
             ],
           ),
         );

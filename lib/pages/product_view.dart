@@ -57,7 +57,7 @@ class _ProductViewPageState extends State<ProductViewPage> {
                     horizontal: 20.0,
                   ),
                   child: Text(
-                    '\$0.00',
+                    '\$${widget.listing.price}',
                     style: const TextStyle(
                       color: colorBackground,
                     ),

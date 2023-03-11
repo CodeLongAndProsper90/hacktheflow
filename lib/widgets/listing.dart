@@ -84,9 +84,10 @@ class ListingCardState extends State<ListingCard> {
                         horizontal: 12.0,
                       ),
                       child: Text(
-                        '\$0.00',
+                        '\$${l.price}',
                         style: const TextStyle(
                           color: colorAccentAlt,
+													fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

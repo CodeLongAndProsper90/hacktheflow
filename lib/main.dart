@@ -90,6 +90,7 @@ class _StartWidgetState extends State<StartWidget> {
 
   @override
   Widget build(BuildContext context) {
+		_redirect();
     return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }

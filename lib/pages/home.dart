@@ -87,12 +87,6 @@ class _MainpageState extends State<Mainpage> {
                 images.add(image);
               }),
           TextButton(
-              child: Text("Add Listing"),
-              onPressed: () async {
-                await addListing("Test", "This is a test",
-                    "2fa01d64-8b12-4bce-9981-b8521ae23482", images);
-              }),
-          TextButton(
             child: Text("Sign out"),
             onPressed: () async {
               await supabase.auth.signOut();

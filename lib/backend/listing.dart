@@ -12,6 +12,7 @@ class Listing {
   final DateTime created_at;
   final String owner_id;
   final String id;
+	final double price;
   List<Uint8List> images;
 
   Listing({
@@ -20,6 +21,7 @@ class Listing {
     required this.created_at,
     required this.owner_id,
     required this.id,
+		required this.price,
     this.images = const [],
   });
 
@@ -29,6 +31,7 @@ class Listing {
         this.created_at = DateTime.parse(d["created_at"]),
         this.owner_id = d["owner_id"],
         this.id = d["id"],
+				this.price = d["price"],
         this.images = const [];
 
   Map<String, dynamic> toJSON(bool includeId) {
@@ -75,8 +78,8 @@ Future<Listing> getListing(String id) async {
   return listing;
 }
 
-Future<Listing> addListing(
-    String title, String desc, String owner, List<XFile> images) async {
+Future<Listing> addListing({
+    required String title, required String desc, required String owner, required double price, required List<XFile> images}) async {
   var data = await supabase.from("listings").insert(
       {"title": title, "description": desc, "owner_id": owner}).select();
   Listing l = Listing.fromJSON(data[0]);
