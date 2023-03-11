@@ -8,8 +8,9 @@ import 'package:hacktheflow/pages/chat_room.dart';
 class ProductViewPage extends StatefulWidget {
   final String id;
   final Listing listing;
-	final String name;
-  const ProductViewPage({super.key, required this.id, required this.listing, required this.name});
+  final String name;
+  const ProductViewPage(
+      {super.key, required this.id, required this.listing, required this.name});
 
   @override
   State<ProductViewPage> createState() => _ProductViewPageState();
@@ -63,7 +64,7 @@ class _ProductViewPageState extends State<ProductViewPage> {
                     horizontal: 20.0,
                   ),
                   child: Text(
-                    '\$${widget.listing.price}',
+                    '\$${widget.listing.price.toStringAsFixed(2)}',
                     style: const TextStyle(
                       color: colorBackground,
                     ),
@@ -94,21 +95,21 @@ class _ProductViewPageState extends State<ProductViewPage> {
           height: 80.0,
           child: TextButton(
             onPressed: () {
-							Navigator.of(context).push(MaterialPageRoute(
-								builder: (context) => ChatRoomPage(to_id: widget.listing.owner_id)
-							));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      ChatRoomPage(to_id: widget.listing.owner_id)));
             },
             style: ButtonStyle(
               shape: MaterialStateProperty.all(
                 const StadiumBorder(),
               ),
               backgroundColor: MaterialStateProperty.all(
-                colorAccent,
+                colorForeground,
               ),
             ),
             child: const BodyText(
               'Contact the seller',
-              style: TextStyle(color: colorAccentAlt),
+              style: TextStyle(color: colorBackground),
             ),
           ),
         ),
