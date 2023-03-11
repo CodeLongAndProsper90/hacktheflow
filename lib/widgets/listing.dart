@@ -75,8 +75,8 @@ class ListingCardState extends State<ListingCard> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: colorAccent,
+                        borderRadius: BorderRadius.circular(100.0),
+                        color: colorForeground,
                       ),
                       margin: const EdgeInsets.only(left: 16.0),
                       padding: const EdgeInsets.symmetric(
@@ -86,8 +86,8 @@ class ListingCardState extends State<ListingCard> {
                       child: Text(
                         '\$${l.price}',
                         style: const TextStyle(
-                          color: colorAccentAlt,
-													fontWeight: FontWeight.bold,
+                          color: colorBackground,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

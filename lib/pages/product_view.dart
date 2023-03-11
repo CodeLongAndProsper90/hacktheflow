@@ -20,22 +20,26 @@ class _ProductViewPageState extends State<ProductViewPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Hero(
-            tag: widget.listing.id,
-            child: Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(32.0),
+          Stack(
+            children: [
+              Hero(
+                tag: widget.listing.id,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.vertical(
+                      bottom: Radius.circular(32.0),
+                    ),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: Image.memory(
+                    widget.listing.images[0],
+                    fit: BoxFit.cover,
+                    height: MediaQuery.of(context).size.height / 2,
+                    width: double.infinity,
+                  ),
                 ),
               ),
-              clipBehavior: Clip.antiAlias,
-              child: Image.memory(
-                widget.listing.images[0],
-                fit: BoxFit.cover,
-                height: MediaQuery.of(context).size.height / 2,
-                width: double.infinity,
-              ),
-            ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -57,7 +61,7 @@ class _ProductViewPageState extends State<ProductViewPage> {
                     horizontal: 20.0,
                   ),
                   child: Text(
-                    '\$${widget.listing.price}',
+                    '\$0.00',
                     style: const TextStyle(
                       color: colorBackground,
                     ),
@@ -71,7 +75,7 @@ class _ProductViewPageState extends State<ProductViewPage> {
                     LargeText('George Orwell'),
                   ],
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 32.0),
                 SubheaderText(widget.listing.desc),
               ],
             ),
@@ -105,6 +109,17 @@ class _ProductViewPageState extends State<ProductViewPage> {
           ),
         ),
       ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          backgroundColor: colorForeground,
+          child: const Icon(Icons.arrow_back_ios_rounded),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
 }
