@@ -77,12 +77,12 @@ class _StartWidgetState extends State<StartWidget> {
   @override
   void initState() {
     super.initState();
+		_redirect();
   }
 
   Future<void> _redirect() async {
     await Future.delayed(Duration.zero);
     final session = supabase.auth.currentSession;
-
     if (session == null) {
       // ignore: curly_braces_in_flow_control_structures, use_build_context_synchronously
       Navigator.of(context)
