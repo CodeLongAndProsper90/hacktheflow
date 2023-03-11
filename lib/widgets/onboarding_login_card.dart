@@ -7,21 +7,23 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final supabase = Supabase.instance.client;
 
 class OnboardingLoginCard extends StatefulWidget {
-	static Route<void> route() {
-		return MaterialPageRoute(
-			builder: (context) => OnboardingLoginCard()
-		);
-	}
-	OnboardingLoginCard({super.key});
-	@override
-	State<OnboardingLoginCard> createState() => OnboardingLoginCardState();
+  final double screenHeight;
+  final double screenWidth;
+
+  const OnboardingLoginCard({
+    super.key,
+    required this.screenHeight,
+    required this.screenWidth,
+  });
+
+  @override
+  State<OnboardingLoginCard> createState() => _OnboardingLoginCardState();
 }
 
-class OnboardingLoginCardState extends State<OnboardingLoginCard> {
+class _OnboardingLoginCardState extends State<OnboardingLoginCard> {
   final formKey = GlobalKey<FormState>();
   final emailCon = TextEditingController();
   final passCon = TextEditingController();
-
 
   Future<void> login(context) async {
     await supabase.auth.signInWithPassword(
@@ -35,10 +37,10 @@ class OnboardingLoginCardState extends State<OnboardingLoginCard> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        right: MediaQuery.of(context).size.width * 0.1,
+        right: widget.screenWidth * 0.1,
       ),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: widget.screenWidth * 0.8,
         child: Card(
           color: colorBackground,
           shape: RoundedRectangleBorder(

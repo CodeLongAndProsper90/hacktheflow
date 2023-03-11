@@ -5,25 +5,121 @@ import 'package:hacktheflow/widgets/styled_text.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
+
 class OnboardingSignupCard extends StatefulWidget {
-	static Route<void> route() {
-		return MaterialPageRoute(
-			builder: (context) => OnboardingSignupCard()
-		);
-	}
-	OnboardingSignupCard({super.key});
-	@override
-	State<OnboardingSignupCard> createState() => OnboardingSignupCardState();
+  final double screenHeight;
+  final double screenWidth;
+
+  const OnboardingSignupCard({
+    super.key,
+    required this.screenHeight,
+    required this.screenWidth,
+  });
+
+  @override
+  State<OnboardingSignupCard> createState() => _OnboardingSignupCardState();
 }
 
-class OnboardingSignupCardState extends State<OnboardingSignupCard> {
-
+class _OnboardingSignupCardState extends State<OnboardingSignupCard> {
   final formKey = GlobalKey<FormState>();
   final emailCon = TextEditingController();
   final passCon = TextEditingController();
   final userCon = TextEditingController();
   final zipCon = TextEditingController();
 
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: widget.screenWidth * 0.1,
+      ),
+      child: SizedBox(
+        width: widget.screenWidth * 0.8,
+        child: SingleChildScrollView(
+          child: Card(
+            color: colorBackground,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+            margin: const EdgeInsets.all(32.0),
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const HeaderText(text: 'Welcome!'),
+                  const SizedBox(height: 25.0),
+                  const SubheaderText(
+                    'Use your email to create a new account',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 40),
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        styledTextFormField(
+                          'Email',
+                          emailCon,
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(height: 15.0),
+                        styledTextFormField(
+                          'Username',
+                          userCon,
+                        ),
+                        const SizedBox(height: 15.0),
+                        styledTextFormField(
+                          'Password',
+                          passCon,
+                          obscureText: true,
+                        ),
+                        // const SizedBox(height: 15.0),
+                        // styledTextFormField(
+                        //   'Username',
+                        //   userCon,
+                        // ),
+                        const SizedBox(height: 15.0),
+                        styledTextFormField(
+                          'Zip code',
+                          zipCon,
+                          keyboardType: TextInputType.number,
+                        ),
+                        const SizedBox(height: 15.0),
+                        SizedBox(
+                          width: double.infinity,
+                          child: TextButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                const StadiumBorder(),
+                              ),
+                              backgroundColor: MaterialStateProperty.all(
+                                colorForeground,
+                              ),
+                              padding: MaterialStateProperty.all(
+                                const EdgeInsets.symmetric(vertical: 16),
+                              ),
+                            ),
+                            onPressed: () async {
+                              await register(context);
+                            },
+                            child: const Text(
+                              "Sign up",
+                              style: TextStyle(color: colorBackground),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   Future<void> register(context) async {
     final isValid = formKey.currentState!.validate();
@@ -42,93 +138,6 @@ class OnboardingSignupCardState extends State<OnboardingSignupCard> {
       },
     );
     Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (_) => false);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: MediaQuery.of(context).size.width * 0.1,
-      ),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: Card(
-          color: colorBackground,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25.0),
-          ),
-          margin: const EdgeInsets.all(32.0),
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const HeaderText(text: 'Welcome!'),
-                const SizedBox(height: 25.0),
-                const SubheaderText(
-                  'Use your email to create a new account',
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 40),
-                Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      styledTextFormField(
-                        'Email',
-                        emailCon,
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                      const SizedBox(height: 15.0),
-                      styledTextFormField(
-                        'Password',
-                        passCon,
-                        obscureText: true,
-                      ),
-                      // const SizedBox(height: 15.0),
-                      // styledTextFormField(
-                      //   'Username',
-                      //   userCon,
-                      // ),
-                      const SizedBox(height: 15.0),
-                      styledTextFormField(
-                        'Zip code',
-                        zipCon,
-                        keyboardType: TextInputType.number,
-                      ),
-                      const SizedBox(height: 15.0),
-                      SizedBox(
-                        width: double.infinity,
-                        child: TextButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                              const StadiumBorder(),
-                            ),
-                            backgroundColor: MaterialStateProperty.all(
-                              colorForeground,
-                            ),
-                            padding: MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(vertical: 16),
-                            ),
-                          ),
-                          onPressed: () async {
-                            await register(context);
-                          },
-                          child: const Text(
-                            "Sign up",
-                            style: TextStyle(color: colorBackground),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   String? validateNotNull(String? value) {

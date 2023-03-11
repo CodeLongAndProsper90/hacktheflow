@@ -42,7 +42,35 @@ class _NavbarState extends State<Navbar> {
                           style: TextStyle(color: colorBackground),
                         ),
                     ],
-                  )
+                  ),
+                  Column(
+                    children: [
+                      Icon(
+                        Icons.chat_outlined,
+                        color:
+                            (_pageIndex == 0) ? colorBackground : colorAccent,
+                      ),
+                      if (_pageIndex == 0)
+                        const LabelText(
+                          'Messages',
+                          style: TextStyle(color: colorBackground),
+                        ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Icon(
+                        Icons.person_outlined,
+                        color:
+                            (_pageIndex == 0) ? colorBackground : colorAccent,
+                      ),
+                      if (_pageIndex == 0)
+                        const LabelText(
+                          'Profile',
+                          style: TextStyle(color: colorBackground),
+                        ),
+                    ],
+                  ),
                 ],
               ),
             ),
