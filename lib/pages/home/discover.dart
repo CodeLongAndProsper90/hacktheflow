@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hacktheflow/colors.dart';
+import 'package:hacktheflow/pages/add_listing.dart';
 import 'package:hacktheflow/widgets/listing.dart';
 import 'package:hacktheflow/widgets/profile_picture.dart';
 import 'package:hacktheflow/widgets/styled_text.dart';
@@ -22,12 +23,39 @@ class _HomeDiscoverPageState extends State<HomeDiscoverPage> {
       padding: const EdgeInsets.all(30.0),
       child: Column(
         children: [
-          // Wyzno and profile picture
+          // Wynzo and profile picture
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const LogoText('Wyzno'),
-              ProfilePicture(name: name, radius: 40.0),
+              const LogoText('Wynzo'),
+              // ProfilePicture(name: name, radius: 40.0),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const AddListingPage(),
+                    ),
+                  );
+                },
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    const StadiumBorder(),
+                  ),
+                  backgroundColor: MaterialStateProperty.all(
+                    colorForeground,
+                  ),
+                  padding: MaterialStateProperty.all(
+                    const EdgeInsets.symmetric(
+                      vertical: 12.0,
+                      horizontal: 24.0,
+                    ),
+                  ),
+                ),
+                child: const BodyText(
+                  'Add a listing',
+                  style: TextStyle(color: colorBackground),
+                ),
+              ),
             ],
           ),
 

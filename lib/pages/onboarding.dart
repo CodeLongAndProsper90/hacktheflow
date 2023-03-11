@@ -67,7 +67,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           children: const [
                             Padding(
                               padding: EdgeInsets.only(top: 16.0),
-                              child: LogoText('Wyzno', color: colorBackground),
+                              child: LogoText('Wynzo', color: colorBackground),
                             ),
                           ],
                         ),
@@ -102,7 +102,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               ),
                               SizedBox(height: 16.0),
                               SubheaderText(
-                                'Wyzno connects your goods to your community. Lorem ipsum dolor sit amet.',
+                                'Wynzo connects your goods to your community. Lorem ipsum dolor sit amet.',
                                 textAlign: TextAlign.center,
                               ),
                             ],
