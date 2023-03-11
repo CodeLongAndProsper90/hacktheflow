@@ -33,7 +33,13 @@ class _HomeDiscoverPageState extends State<HomeDiscoverPage> {
 			]),
 			builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
 				if (!snapshot.hasData)
-					return CircularProgressIndicator();
+					return Center(
+						child: SizedBox(
+							width: 100,
+							height: 100,
+							child: CircularProgressIndicator()
+						)
+					);
 				AppUser user = snapshot.data![0];
 				listings = snapshot.data![1];
 				print(listings);
@@ -75,8 +81,6 @@ class _HomeDiscoverPageState extends State<HomeDiscoverPage> {
 								),
 							),
 
-							// The listings... soon:tm:
-							//ListingCard(id: "2fa01d64-8b12-4bce-9981-b8521ae23482"),
 							Expanded(
 								child: ListView(
 										children: listings.where((list) => (list.desc+list.title).contains(search))
