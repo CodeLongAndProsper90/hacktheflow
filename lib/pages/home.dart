@@ -1,6 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:hacktheflow/pages/home/discover.dart';
-import 'dart:typed_data';
 import 'package:hacktheflow/widgets/navbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,43 +29,15 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-	final ImagePicker _p = ImagePicker();
-	List<XFile> images = [];
-
-  int _pageIndex = 0;
-
   int _pageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
-      body: Center(
-        child: Column(
-          children: [
-            Text("Main page"),
-						TextButton(
-							child: Text("Take photo"),
-							onPressed: () async {
-								XFile? img = await _p.pickImage(source: ImageSource.camera);
-								if (img == null) return;
-								XFile image = img!;
-								images.add(image);
-							}
-						),
-            TextButton(
-                child: Text("Add Listing"),
-                onPressed: () async {
-									print(images.runtimeType.toString());
-									await addListing("Test", "This is a test", "b7891604-2cff-48bb-ad00-bc9097af1086", images);
-								}
-						),
-            TextButton(
-=======
       body: SafeArea(
         child: [
           HomeDiscoverPage(),
-          Mainpage(msgCon: msgCon),
+          Mainpage(),
           HomeProfilePage(),
         ][_pageIndex],
       ),
@@ -79,13 +52,16 @@ class HomePageState extends State<HomePage> {
   }
 }
 
-class Mainpage extends StatelessWidget {
-  const Mainpage({
-    Key? key,
-    required this.msgCon,
-  }) : super(key: key);
+class Mainpage extends StatefulWidget {
+  const Mainpage({Key? key}) : super(key: key);
 
-  final TextEditingController msgCon;
+  @override
+  State<Mainpage> createState() => _MainpageState();
+}
+
+class _MainpageState extends State<Mainpage> {
+  final ImagePicker _p = ImagePicker();
+  List<XFile> images = [];
 
   @override
   Widget build(BuildContext context) {
@@ -93,19 +69,21 @@ class Mainpage extends StatelessWidget {
       child: Column(
         children: [
           Text("Main page"),
-          TextField(
-            decoration: InputDecoration(labelText: "message"),
-            controller: msgCon,
-          ),
           TextButton(
-            child: Text("Send"),
-            onPressed: () async {
-              await send(
-                to: "b7891604-2cff-48bb-ad00-bc9097af1086",
-                contents: msgCon.text,
-              );
-            },
-          ),
+              child: Text("Take photo"),
+              onPressed: () async {
+                XFile? img = await _p.pickImage(source: ImageSource.camera);
+                if (img == null) return;
+                XFile image = img!;
+                images.add(image);
+              }),
+          TextButton(
+              child: Text("Add Listing"),
+              onPressed: () async {
+                print(images.runtimeType.toString());
+                await addListing("Test", "This is a test",
+                    "b7891604-2cff-48bb-ad00-bc9097af1086", images);
+              }),
           TextButton(
             child: Text("Sign out"),
             onPressed: () async {
@@ -116,7 +94,7 @@ class Mainpage extends StatelessWidget {
                 ),
               );
             },
-          )
+          ),
         ],
       ),
     );
