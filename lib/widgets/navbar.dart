@@ -3,7 +3,9 @@ import 'package:hacktheflow/colors.dart';
 import 'package:hacktheflow/widgets/styled_text.dart';
 
 class Navbar extends StatefulWidget {
-  const Navbar({super.key});
+  final Null Function(int index) onChange;
+
+  const Navbar({super.key, required this.onChange});
 
   @override
   State<Navbar> createState() => _NavbarState();
@@ -14,6 +16,29 @@ class _NavbarState extends State<Navbar> {
 
   @override
   Widget build(BuildContext context) {
+    // return BottomNavigationBar(
+    //   type: BottomNavigationBarType.fixed,
+    //   backgroundColor: colorForeground,
+    //   selectedItemColor: colorAccent,
+    //   fixedColor: col,
+    //   items: const [
+    //     BottomNavigationBarItem(
+    //       icon: Icon(Icons.category_outlined),
+    //       label: 'Discover',
+    //     ),
+    //     BottomNavigationBarItem(
+    //       icon: Icon(Icons.chat_outlined),
+    //       label: 'Message',
+    //     ),
+    //     BottomNavigationBarItem(
+    //       icon: Icon(Icons.person_outlined),
+    //       label: 'Profile',
+    //     ),
+    //     // navbarItem(0, 'Discover', Icons.category_outlined),
+    //     // navbarItem(1, 'Messages', Icons.chat_outlined),
+    //     // navbarItem(2, 'Profile', Icons.person_outlined),
+    //   ],
+    // );
     return SizedBox(
       height: 200.0,
       width: double.infinity,
@@ -67,6 +92,7 @@ class _NavbarState extends State<Navbar> {
         onTap: () {
           setState(() {
             _pageIndex = targetIndex;
+            widget.onChange(targetIndex);
           });
         },
         child: Column(
