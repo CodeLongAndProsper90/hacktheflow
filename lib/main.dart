@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hacktheflow/colors.dart';
+import 'package:hacktheflow/pages/messaginghub.dart';
 import 'package:hacktheflow/pages/onboarding.dart';
 import 'package:hacktheflow/pages/home.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -76,7 +77,6 @@ class _StartWidgetState extends State<StartWidget> {
   @override
   void initState() {
     super.initState();
-    _redirect();
   }
 
   Future<void> _redirect() async {
@@ -84,10 +84,12 @@ class _StartWidgetState extends State<StartWidget> {
     final session = supabase.auth.currentSession;
 
     if (session == null)
+      // ignore: curly_braces_in_flow_control_structures, use_build_context_synchronously
       Navigator.of(context)
           .pushAndRemoveUntil(OnboardingPage.route(), (_) => false);
     else
       Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (_) => false);
+    }
   }
 
   @override

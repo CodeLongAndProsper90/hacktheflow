@@ -24,7 +24,6 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage> {
   final signupKey = GlobalKey();
   final loginKey = GlobalKey();
-
   bool modalOpen = false;
   bool modalSide = false; // false <- side -> true
   final modalPopupDuration = const Duration(milliseconds: 200);
@@ -57,8 +56,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     children: [
                       Image.asset(
                         'assets/images/bg_towers.jpg',
+
                         height: screenHeight * 0.55,
                         width: screenWidth,
+
                         fit: BoxFit.cover,
                         alignment: Alignment.bottomCenter,
                       ),
