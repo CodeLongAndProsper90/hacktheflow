@@ -4,6 +4,7 @@ import 'package:hacktheflow/pages/product_view.dart';
 import 'package:hacktheflow/widgets/styled_text.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hacktheflow/backend/listing.dart';
+import 'package:hacktheflow/backend/user.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -19,12 +20,17 @@ class ListingCardState extends State<ListingCard> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getListing(widget.id),
-      builder: (BuildContext context, AsyncSnapshot<Listing> snapshot) {
-        if (!snapshot.hasData) return const CircularProgressIndicator();
+      future: Future.wait([getUser(supabase.auth.currentUser!.id), getListing(widget.id)]),
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+        if (!snapshot.hasData)
+					return SizedBox(
+						width: 100,
+						height: 100,
+						child: CircularProgressIndicator()
+					);
         print(snapshot.data);
-
-        Listing l = snapshot.data!;
+				AppUser user = snapshot.data![0];
+        Listing l = snapshot.data![1];
         return GestureDetector(
           onTap: () {
             Navigator.of(context).push(
@@ -32,6 +38,7 @@ class ListingCardState extends State<ListingCard> {
                 builder: (BuildContext context) => ProductViewPage(
                   id: l.id,
                   listing: l,
+									name: user.name
                 ),
               ),
             );
