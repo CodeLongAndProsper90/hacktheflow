@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hacktheflow/colors.dart';
 import 'package:hacktheflow/pages/onboarding.dart';
-import 'package:hacktheflow/pages/signup.dart';
 import 'package:hacktheflow/pages/home.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
