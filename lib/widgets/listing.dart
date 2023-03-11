@@ -22,7 +22,15 @@ class ListingCardState extends State<ListingCard> {
 				print(snapshot.data);
 				Listing l = snapshot.data!;
 				return 
-					Image.memory(l.images[0]);
+					ListTile(
+						leading: SizedBox(
+							width: 50,
+							height: 50,
+							child: Image.memory(l.images[0])
+						),
+						title: Text(l.title),
+						subtitle: Text(l.desc)
+					);
 			}	
 		);
 	}
