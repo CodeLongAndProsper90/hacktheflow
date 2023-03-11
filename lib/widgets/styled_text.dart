@@ -56,6 +56,24 @@ class HeaderText extends StatelessWidget {
   }
 }
 
+class PageTitleText extends StatelessWidget {
+  final String text;
+
+  const PageTitleText(
+    this.text, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text!,
+      style: Theme.of(context).textTheme.headlineMedium,
+      textAlign: TextAlign.center,
+    );
+  }
+}
+
 class SubheaderText extends StatelessWidget {
   final String text;
   final TextStyle? style;

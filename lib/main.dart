@@ -40,6 +40,10 @@ class StartPage extends StatelessWidget {
               fontSize: 36.0,
               color: colorForeground,
               fontWeight: FontWeight.bold),
+          headlineMedium: TextStyle(
+              fontSize: 28.0,
+              color: colorForeground,
+              fontWeight: FontWeight.bold),
           headlineSmall: TextStyle(fontSize: 16.0, color: colorForegroundAlt),
           bodyMedium: TextStyle(
             fontSize: 16.0,

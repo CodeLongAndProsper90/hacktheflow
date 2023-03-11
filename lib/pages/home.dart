@@ -7,13 +7,15 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:hacktheflow/backend/user.dart';
 import 'package:hacktheflow/main.dart';
-import 'package:hacktheflow/widgets/message.dart';
+import 'package:hacktheflow/widgets/message_bubble.dart';
 import 'package:hacktheflow/backend/message.dart';
 import 'package:hacktheflow/backend/listing.dart';
 
 import 'package:hacktheflow/pages/home/profile.dart';
 
 import 'package:hacktheflow/pages/home/profile.dart';
+
+import 'home/messages.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -36,8 +38,9 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       body: SafeArea(
         child: [
-          HomeDiscoverPage(),
+          // HomeDiscoverPage(),
           Mainpage(),
+          HomeMessagesPage(),
           HomeProfilePage(),
         ][_pageIndex],
       ),
