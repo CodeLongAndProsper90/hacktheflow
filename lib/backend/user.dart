@@ -42,3 +42,8 @@ Future<AppUser> getUser(String id) async {
 	var data = await supabase.from("profiles").select<List<Map<String, dynamic>>>().eq("id", id);
 	return AppUser.fromJSON(data[0]);
 }
+
+Future<List<AppUser>> getAllUsers() async {
+	var data = await supabase.from("profiles").select<List<Map<String, dynamic>>>();
+	return data.map((d) => AppUser.fromJSON(d)).toList();
+}

@@ -4,6 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:hacktheflow/widgets/profile_picture.dart';
 import 'package:hacktheflow/widgets/styled_text.dart';
+import 'package:hacktheflow/backend/message.dart';
+import 'package:hacktheflow/backend/user.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+final supabase = Supabase.instance.client;
 
 class HomeOpenChatsPage extends StatefulWidget {
   const HomeOpenChatsPage({super.key});
@@ -13,87 +17,97 @@ class HomeOpenChatsPage extends StatefulWidget {
 }
 
 class _HomeOpenChatsPageState extends State<HomeOpenChatsPage> {
-  final name = 'John Doe';
-
-  List<Map<String, dynamic>> chats = [
-    {
-      'name': 'Jane Doe',
-      'id': 'b7891604-2cff-48bb-ad00-bc9097af1086',
-      'latest': 'I heard you were selling blue posters.',
-      'date': DateTime.now(),
-    },
-    {
-      'name': 'Alice',
-      'id': '',
-      'latest': 'Hello world',
-      'date': DateTime.now(),
-    },
-    {
-      'name': 'Bob',
-      'id': '',
-      'latest': 'Hello world',
-      'date': DateTime.now(),
-    },
-    {
-      'name': 'Charlie',
-      'id': '',
-      'latest': 'Hello world',
-      'date': DateTime.now(),
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30.0),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const LogoText('Wyzno'),
-              ProfilePicture(name: name, radius: 40.0),
-            ],
-          ),
-          const SizedBox(height: 36.0),
-          Expanded(
-            child: ListView.separated(
-              itemCount: chats.length,
-              itemBuilder: (context, index) {
-                var chat = chats[index];
+		return FutureBuilder(
+			future: Future.wait([
+				getUser(supabase.auth.currentUser!.id),
+				getAllMessages(),
+				getAllUsers(),
+			]),
+			builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+				if (!snapshot.hasData)
+					return CircularProgressIndicator();
+				AppUser user = snapshot.data![0];
+				List<Message> all_messages = snapshot.data![1];
+				List<AppUser> all_users = snapshot.data![2];
+				Map<AppUser, List<Message>> msgs = {};
+				for (AppUser u in all_users) {
+					msgs[u] = [];
+					for (Message m in all_messages)
+						if (m.rec_id == u.id)
+							msgs[u]!.add(m);
+				}
+				List<Map<String, dynamic>> chats = [];
+				for (AppUser u in msgs.keys) {
+					print(msgs[u]!.length);
+					if (msgs[u]!.length > 0) {
+						List<Message> messages = msgs[u]!;
+						messages.sort((a, b) => a.created_at.compareTo(b.created_at));
+						
+						final final_msg = messages[0];
+						chats.add({
+							"name": u.name,
+							"id": u.id,
+							"latest": final_msg.content,
+							"date": final_msg.created_at
+						});
+					}
+				}
+				print(chats);
+				
+				return Padding(
+					padding: const EdgeInsets.all(30.0),
+					child: Column(
+						children: [
+							Row(
+								mainAxisAlignment: MainAxisAlignment.spaceBetween,
+								children: [
+									const LogoText('Wyzno'),
+									ProfilePicture(name: user.name, radius: 40.0),
+								],
+							),
+							const SizedBox(height: 36.0),
+							Expanded(
+								child: ListView.separated(
+									itemCount: chats.length,
+									itemBuilder: (context, index) {
+										var chat = chats[index];
 
-                return InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return ChatRoomPage(to_id: chat['id']);
-                        },
-                      ),
-                    );
-                  },
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: ListTile(
-                    leading: ProfilePicture(name: chat['name'], radius: 25.0),
-                    title: LargeText(chat['name']),
-                    subtitle: Text(
-                      chat['latest'],
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    trailing: SmallText(timestampToString(chat['date'])),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(height: 16.0);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+										return InkWell(
+											onTap: () {
+												Navigator.of(context).push(
+													MaterialPageRoute(
+														builder: (context) {
+															return ChatRoomPage(to_id: chat['id']);
+														},
+													),
+												);
+											},
+											borderRadius: BorderRadius.circular(8.0),
+											child: ListTile(
+												leading: ProfilePicture(name: chat['name'], radius: 25.0),
+												title: LargeText(chat['name']),
+												subtitle: Text(
+													chat['latest'],
+													style: Theme.of(context).textTheme.bodyMedium,
+													maxLines: 1,
+													overflow: TextOverflow.ellipsis,
+												),
+												trailing: SmallText(timestampToString(chat['date'])),
+											),
+										);
+									},
+									separatorBuilder: (context, index) {
+										return const SizedBox(height: 16.0);
+									},
+								),
+							),
+						],
+					),
+				);
+			}
+		);
   }
 
   String timestampToString(DateTime timestamp) {

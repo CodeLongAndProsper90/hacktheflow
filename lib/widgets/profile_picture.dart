@@ -18,7 +18,10 @@ class ProfilePicture extends StatelessWidget {
       radius: radius,
       child: pictureId == null
           ? Text(
-              name.split(' ').map((e) => e[0].toUpperCase()).join(''),
+              name.split(' ').map((e) {
+								if (e == '') return e;
+								return e[0].toUpperCase();
+							}).join(''),
             )
           : null,
     );

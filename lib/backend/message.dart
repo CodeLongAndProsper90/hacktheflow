@@ -43,12 +43,15 @@ Future<void> send({required String to, required String contents}) async {
 	});
 }
 
-Future<Message?> getSentMessage(String user_id) async {
+Future<List<Message>> getAllMessages() async {
 	var data = await supabase.from("messages").select<List<Map<String, dynamic>>>();
-	print(data);
+	List<Message> msgs = [];
+	for (Map<String, dynamic> json in data)
+		msgs.add(Message.fromJSON(json, supabase.auth.currentUser!.id));
+	return msgs;
 }
 
-Future<List<Message>?> getMessagesTo(String user_id) async {
+Future<List<Message>> getMessagesTo(String user_id) async {
 	var data = await supabase.from("messages").select<List<Map<String, dynamic>>>().eq("rec_id", user_id);
 	List<Message> msgs = [];
 	for (Map<String, dynamic> json in data)
