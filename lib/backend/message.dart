@@ -38,7 +38,7 @@ class Message {
 
 Future<void> send({required String to, required String contents}) async {
 	await supabase.from("messages").insert({
-		"profile_id":	to,
+		"rec_id":	to,
 		"content": contents,
 	});
 }

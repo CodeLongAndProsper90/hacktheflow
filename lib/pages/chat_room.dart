@@ -19,61 +19,40 @@ class ChatRoomPage extends StatefulWidget {
 
 class _ChatRoomPageState extends State<ChatRoomPage> {
   final chatCon = TextEditingController();
+	late final Stream<List<Map<String, dynamic>>> msgStream;
 
+	MessageBubble makeBubble(Message d, String name) {
+		return MessageBubble(
+			senderName: name,
+			contents: d.content,
+			sentAt: d.created_at,
+			clientSent: d.mine,
+		);
+	}
   final name = "John Doe";
   final status = "Online";
 
-  List<Widget> messages = [
-    MessageBubble(
-      senderName: 'Jane Doe',
-      contents: 'Lorem ipsum dolor sit amet',
-      sentAt: DateTime.now(),
-      clientSent: true,
-    ),
-  ];
-
-  void addMessage(
-    String senderName,
-    String contents,
-    DateTime sentAt,
-    bool clientSent,
-  ) {
-    setState(() {
-      messages.add(
-        MessageBubble(
-          senderName: 'Jane Doe',
-          contents: 'Lorem ipsum dolor sit amet',
-          sentAt: DateTime.now(),
-          clientSent: true,
-        ),
-      );
-    });
-  }
-
+	@override
+	void initState() {
+		msgStream = supabase
+				.from("messages")
+				.stream(primaryKey: ["id"])
+				.order("created_at");
+		super.initState();
+	}
+	List<Map<String, dynamic>> messages_w= [];
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Future.wait([getUser(widget.to_id), getMessagesTo(widget.to_id)]),
-      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+      future: getUser(widget.to_id),
+      builder: (BuildContext context, AsyncSnapshot<AppUser> snapshot) {
         if (!snapshot.hasData) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
 
-        print(snapshot.data);
-        AppUser user = snapshot.data![0];
-        List<Message> messages = snapshot.data![1];
-        List<Widget> messageWidgets = messages
-            .map(
-              (data) => MessageBubble(
-                senderName: user.name,
-                contents: data.content,
-                sentAt: data.created_at,
-                clientSent: data.mine,
-              ),
-            )
-            .toList();
+        AppUser user = snapshot.data!;
         return Scaffold(
           appBar: AppBar(
             toolbarHeight: 128.0,
@@ -116,7 +95,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 ),
                 IconButton(
                   onPressed: () {
-                    // pop
+										Navigator.of(context).pop();
                   },
                   icon: const Icon(
                     Icons.settings,
@@ -126,12 +105,14 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
               ],
             ),
           ),
-          body: ListView.builder(
-            itemCount: messageWidgets.length,
-            itemBuilder: (context, index) {
-              return messageWidgets[index];
-            },
-          ),
+          body: FutureBuilder(
+						future: getMessagesTo(supabase.auth.currentUser!.id),
+						builder: (BuildContext context, AsyncSnapshot<List<Message>> snapshot) {
+							if (!snapshot.hasData)
+								return CircularProgressIndicator();
+							
+							return ListView(children: snapshot.data!.map((x) => makeBubble(x, user.name)).toList());
+					}),
           bottomNavigationBar: Padding(
             padding: EdgeInsets.only(
               left: 20.0,
@@ -141,7 +122,6 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             child: TextField(
               controller: chatCon,
               onSubmitted: (value) {
-                // TODO: submit
               },
               decoration: InputDecoration(
                 fillColor: colorForeground,
@@ -153,11 +133,20 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   borderSide: const BorderSide(color: colorAccent),
                   borderRadius: BorderRadius.circular(16.0),
                 ),
-                suffixIcon: Icon(
+                suffixIcon: InkWell(
+									onTap: () async {
+										String msg = chatCon.text;
+										await send(to: user.id, contents: msg);
+										setState((){
+											chatCon.text = "";
+										});
+									},
+									child: Icon(
                   Icons.send_rounded,
                   color:
                       chatCon.text.isNotEmpty ? colorAccent : colorBackground,
-                ),
+	                ),
+								),
                 // TODO: wrong name
                 labelText: 'Message $name',
                 labelStyle: const TextStyle(color: colorBackground),
