@@ -82,10 +82,10 @@ flutter:
           weight: 700
     - family: Sansation
       fonts:
-        - asset: fonts/Sansation.ttf
-        - asset: fonts/Sansation_Italic.ttf
+        - asset: assets/fonts/Sansation_Regular.ttf
+        - asset: assets/fonts/Sansation_Italic.ttf
           style: italic
-        - asset: fonts/Sansation_Bold.ttf
+        - asset: assets/fonts/Sansation_Bold.ttf
           weight: 700
   #
   # For details regarding fonts from package dependencies,
