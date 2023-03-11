@@ -15,9 +15,9 @@ class Message {
 	
 	Message.fromJSON(Map<String, dynamic> d, String myId) :
 		id = d["id"],
-		profile_id = d["profile_id"],
+		sender_id = d["profile_id"],
 		content = d["content"],
 		created_at = DateTime.parse(d["created_at"]),
-		mine = profile_id = myId;
+		mine = sender_id == myId;
 
 }
