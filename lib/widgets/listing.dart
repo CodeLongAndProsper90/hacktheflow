@@ -24,8 +24,7 @@ class ListingCardState extends State<ListingCard> {
           [getUser(supabase.auth.currentUser!.id), getListing(widget.id)]),
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (!snapshot.hasData) {
-          return const SizedBox(
-              width: 100, height: 100, child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         print(snapshot.data);
         AppUser user = snapshot.data![0];
@@ -48,63 +47,53 @@ class ListingCardState extends State<ListingCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    SizedBox(
-                      height: 250,
-                      width: double.infinity,
-                      child: Hero(
-                        tag: l.id,
-                        child: Image.memory(
-                          l.images[0],
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  height: 250,
+                  width: double.infinity,
+                  child: Hero(
+                    tag: l.id,
+                    child: Image.memory(
+                      l.images[0],
+                      fit: BoxFit.cover,
                     ),
-                    Container(
-                      height: 16,
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        color: colorBackground,
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(16.0),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100.0),
-                        color: colorForeground,
-                      ),
-                      margin: const EdgeInsets.only(left: 16.0),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 6.0,
-                        horizontal: 12.0,
-                      ),
-                      child: Text(
-                        '\$${l.price}',
-                        style: const TextStyle(
-                          color: colorBackground,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8.0),
-                    LargeText(l.title),
-                  ],
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16.0,
-                    bottom: 16.0,
-                    top: 8.0,
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100.0),
+                              color: colorForeground,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 6.0,
+                              horizontal: 12.0,
+                            ),
+                            child: Text(
+                              '\$${l.price.toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                color: colorBackground,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8.0),
+                          LargeText(l.title),
+                        ],
+                      ),
+                      const SizedBox(height: 8.0),
+                      BodyText(l.desc),
+                    ],
                   ),
-                  child: BodyText(l.desc),
                 ),
               ],
             ),
