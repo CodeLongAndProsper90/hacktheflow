@@ -113,7 +113,7 @@ class _HomeOpenChatsPageState extends State<HomeOpenChatsPage> {
                               overflow: TextOverflow.ellipsis,
                             ),
                             trailing:
-                                SmallText(timestampToString(chat['date'])),
+                                SmallText(timestampToString(chat['date'].toLocal())),
                           ),
                         );
                       },
