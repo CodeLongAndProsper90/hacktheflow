@@ -3,11 +3,13 @@ import 'package:hacktheflow/backend/listing.dart';
 import 'package:hacktheflow/colors.dart';
 import 'package:hacktheflow/widgets/profile_picture.dart';
 import 'package:hacktheflow/widgets/styled_text.dart';
+import 'package:hacktheflow/pages/chat_room.dart';
 
 class ProductViewPage extends StatefulWidget {
   final String id;
   final Listing listing;
-  const ProductViewPage({super.key, required this.id, required this.listing});
+	final String name;
+  const ProductViewPage({super.key, required this.id, required this.listing, required this.name});
 
   @override
   State<ProductViewPage> createState() => _ProductViewPageState();
@@ -61,7 +63,7 @@ class _ProductViewPageState extends State<ProductViewPage> {
                     horizontal: 20.0,
                   ),
                   child: Text(
-                    '\$0.00',
+                    '\$${widget.listing.price}',
                     style: const TextStyle(
                       color: colorBackground,
                     ),
@@ -72,7 +74,7 @@ class _ProductViewPageState extends State<ProductViewPage> {
                   children: [
                     ProfilePicture(name: widget.listing.owner_id),
                     const SizedBox(width: 8.0),
-                    LargeText('George Orwell'),
+                    LargeText(widget.name),
                   ],
                 ),
                 const SizedBox(height: 32.0),
@@ -92,7 +94,9 @@ class _ProductViewPageState extends State<ProductViewPage> {
           height: 80.0,
           child: TextButton(
             onPressed: () {
-              // Open chat
+							Navigator.of(context).push(MaterialPageRoute(
+								builder: (context) => ChatRoomPage(to_id: widget.listing.owner_id)
+							));
             },
             style: ButtonStyle(
               shape: MaterialStateProperty.all(

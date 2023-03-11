@@ -102,5 +102,6 @@ Future<List<Listing>> getAllListings() async {
   for (Listing l in data) {
     l.images = await l.getImages();
   }
+	data.sort((a, b) => a.created_at.compareTo(b.created_at));
   return data;
 }
