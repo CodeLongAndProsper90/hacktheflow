@@ -83,8 +83,6 @@ class _NavbarState extends State<Navbar> {
       child: GestureDetector(
         onTap: () {
           setState(() {
-            // TODO: hide keyboard before switching (v doesnt work)
-            // FocusManager.instance.primaryFocus?.unfocus();
             _pageIndex = targetIndex;
             widget.onChange(targetIndex);
           });
