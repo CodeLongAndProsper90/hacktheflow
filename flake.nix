@@ -32,9 +32,11 @@
         dart
         kotlin
         jdk11
+        android-studio
       ]);
       profile = ''
         export JAVA_HOME=${pkgs.jdk11.home}
+        export _JAVA_AWT_WM_NONREPARENTING=1
       '';
       runScript = "bash -c fish";
     }).env;
