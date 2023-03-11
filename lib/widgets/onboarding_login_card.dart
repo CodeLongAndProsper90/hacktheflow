@@ -6,9 +6,21 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
 
-class OnboardingLoginCard extends StatelessWidget {
-  OnboardingLoginCard({super.key});
+class OnboardingLoginCard extends StatefulWidget {
+  final double screenHeight;
+  final double screenWidth;
 
+  const OnboardingLoginCard({
+    super.key,
+    required this.screenHeight,
+    required this.screenWidth,
+  });
+
+  @override
+  State<OnboardingLoginCard> createState() => _OnboardingLoginCardState();
+}
+
+class _OnboardingLoginCardState extends State<OnboardingLoginCard> {
   final formKey = GlobalKey<FormState>();
   final emailCon = TextEditingController();
   final passCon = TextEditingController();
@@ -25,10 +37,10 @@ class OnboardingLoginCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        right: MediaQuery.of(context).size.width * 0.1,
+        right: widget.screenWidth * 0.1,
       ),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: widget.screenWidth * 0.8,
         child: Card(
           color: colorBackground,
           shape: RoundedRectangleBorder(
@@ -40,7 +52,7 @@ class OnboardingLoginCard extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const HeaderText('Hi again!'),
+                const HeaderText(text: 'Hi again!'),
                 const SizedBox(height: 25.0),
                 const SubheaderText(
                   'Glad to see you back. Let\'s get back to business.',

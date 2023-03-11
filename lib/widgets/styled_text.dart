@@ -57,6 +57,24 @@ class HeaderText extends StatelessWidget {
   }
 }
 
+class PageTitleText extends StatelessWidget {
+  final String text;
+
+  const PageTitleText(
+    this.text, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text!,
+      style: Theme.of(context).textTheme.headlineMedium,
+      textAlign: TextAlign.center,
+    );
+  }
+}
+
 class SubheaderText extends StatelessWidget {
   final String text;
   final TextStyle? style;
@@ -82,8 +100,10 @@ class BodyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,
-        style: Theme.of(context).textTheme.bodyMedium?.merge(style));
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.bodyMedium?.merge(style),
+    );
   }
 }
 
@@ -97,6 +117,21 @@ class SmallText extends StatelessWidget {
     return Text(
       text,
       style: Theme.of(context).textTheme.bodySmall,
+    );
+  }
+}
+
+class LabelText extends StatelessWidget {
+  final String text;
+  final TextStyle? style;
+
+  const LabelText(this.text, {super.key, this.style});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.labelSmall?.merge(style),
     );
   }
 }

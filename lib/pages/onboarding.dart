@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:hacktheflow/colors.dart';
-import 'package:hacktheflow/pages/home.dart';
-import 'package:hacktheflow/widgets/navbar.dart';
 import 'package:hacktheflow/widgets/onboarding_login_card.dart';
 import 'package:hacktheflow/widgets/onboarding_signup_card.dart';
 import 'package:hacktheflow/widgets/styled_text.dart';
@@ -36,20 +32,34 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          OverflowBox(
-              maxHeight: double.infinity,
-              child: Column(
+      body: WillPopScope(
+        onWillPop: () async {
+          if (modalOpen) {
+            setState(() {
+              modalOpen = false;
+            });
+          } else {
+            Navigator.of(context).pop(true);
+          }
+          return false;
+        },
+        child: LayoutBuilder(builder: (context, constraints) {
+          var screenHeight = constraints.maxHeight;
+          var screenWidth = constraints.maxWidth;
+
+          return Stack(
+            children: [
+              Column(
                 children: [
                   // Upper portion
                   Stack(
                     children: [
                       Image.asset(
                         'assets/images/bg_towers.jpg',
-                        height: MediaQuery.of(context).size.height * 0.55,
-                        width: MediaQuery.of(context).size.width,
+
+                        height: screenHeight * 0.55,
+                        width: screenWidth,
+
                         fit: BoxFit.cover,
                         alignment: Alignment.bottomCenter,
                       ),
@@ -66,23 +76,23 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       ),
                     ],
                   ),
-          
+
                   // Lower portion
                   SizedBox(
                     // TODO: replace hardcoded value?
-                    height: MediaQuery.of(context).size.height * 0.45,
+                    height: screenHeight * 0.45,
                     child: Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 64.0, right: 64.0, top: 32.0),
                           child: Column(
-                            // ignore: prefer_const_literals_to_create_immutables
-                            children: [
-                              const HeaderText(
+                            children: const [
+                              HeaderText(
                                 rich: TextSpan(
                                   children: [
-                                    TextSpan(text: 'Neighborhood commerce made '),
+                                    TextSpan(
+                                        text: 'Neighborhood commerce made '),
                                     TextSpan(
                                       text: 'effortless',
                                       style: TextStyle(
@@ -93,7 +103,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                 ),
                               ),
                               SizedBox(height: 16.0),
-                              // ignore: prefer_const_constructors
                               SubheaderText(
                                 'Wyzno connects your goods to your community. Lorem ipsum dolor sit amet.',
                                 textAlign: TextAlign.center,
@@ -138,76 +147,104 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   )
                 ],
               ),
-            ),
 
-          // Modal
-          // TODO: this causes the background to immediately disappear rather than fade outs
-          // without it, you wouldn't be able to click on anything when the dialog is closed
-          if (modalOpen)
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  modalOpen = false;
-                  FocusManager.instance.primaryFocus?.unfocus();
-                });
-              },
-              child: TweenAnimationBuilder(
+              // Modal
+              // TODO: this causes the background to immediately disappear rather than fade outs
+              // without it, you wouldn't be able to click on anything when the dialog is closed
+              if (modalOpen)
+                TweenAnimationBuilder(
+                  tween: Tween<double>(
+                    begin: 0.0,
+                    end: modalOpen ? 1.0 : 0.0,
+                  ),
+                  duration: modalPopupDuration,
+                  curve: Curves.easeInOut,
+                  builder: (context, double opacity, child) {
+                    return Opacity(
+                      opacity: opacity,
+                      child: child,
+                    );
+                  },
+                  child: Container(color: Colors.black.withOpacity(0.35)),
+                ),
+              TweenAnimationBuilder(
                 tween: Tween<double>(
-                  begin: 0.0,
+                  begin: 0,
                   end: modalOpen ? 1.0 : 0.0,
                 ),
                 duration: modalPopupDuration,
-                curve: Curves.easeInOut,
-                builder: (context, double opacity, child) {
-                  return Opacity(
-                    opacity: opacity,
+                curve: Curves.bounceInOut,
+                builder: (context, double scale, child) {
+                  return Transform.scale(
+                    scale: scale,
                     child: child,
                   );
                 },
-                child: Container(color: Colors.black.withOpacity(0.35)),
-              ),
-            ),
-          TweenAnimationBuilder(
-            tween: Tween<double>(
-              begin: 0,
-              end: modalOpen ? 1.0 : 0.0,
-            ),
-            duration: modalPopupDuration,
-            curve: Curves.bounceInOut,
-            builder: (context, double scale, child) {
-              return Transform.scale(
-                scale: scale,
-                child: child,
-              );
-            },
-            child: Center(
-              child: Swipe(
-                onSwipeLeft: () {
-                  Scrollable.ensureVisible(
-                    loginKey.currentContext!,
-                    duration: modalScrollDuration,
-                  );
-                },
-                onSwipeRight: () {
-                  Scrollable.ensureVisible(
-                    signupKey.currentContext!,
-                    duration: modalScrollDuration,
-                  );
-                },
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const NeverScrollableScrollPhysics(),
-                  child: Row(
-                    children: [
-                      OnboardingSignupCard(key: signupKey),
-                      OnboardingLoginCard(key: loginKey),
-                    ],
+                child: Center(
+                  child: Swipe(
+                    onSwipeLeft: () {
+                      Scrollable.ensureVisible(
+                        loginKey.currentContext!,
+                        duration: modalScrollDuration,
+                      );
+                    },
+                    onSwipeRight: () {
+                      Scrollable.ensureVisible(
+                        signupKey.currentContext!,
+                        duration: modalScrollDuration,
+                      );
+                    },
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: const NeverScrollableScrollPhysics(),
+                      child: Row(
+                        children: [
+                          OnboardingSignupCard(
+                            screenHeight: screenHeight,
+                            screenWidth: screenWidth,
+                            key: signupKey,
+                          ),
+                          OnboardingLoginCard(
+                            screenHeight: screenHeight,
+                            screenWidth: screenWidth,
+                            key: loginKey,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
+          );
+        }),
+      ),
+      floatingActionButton: TweenAnimationBuilder(
+        tween: Tween<double>(
+          begin: 0,
+          end: modalOpen ? 1.0 : 0.0,
+        ),
+        duration: modalPopupDuration,
+        curve: Curves.bounceInOut,
+        builder: (context, double scale, child) {
+          return Transform.scale(
+            scale: scale,
+            child: child,
+          );
+        },
+        child: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              modalOpen = false;
+              FocusManager.instance.primaryFocus?.unfocus();
+            });
+          },
+          backgroundColor: colorAccent,
+          child: const Icon(
+            Icons.close,
+            color: colorForeground,
           ),
-        ],
+        ),
       ),
     );
   }

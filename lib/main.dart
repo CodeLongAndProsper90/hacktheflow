@@ -41,6 +41,10 @@ class StartPage extends StatelessWidget {
               fontSize: 36.0,
               color: colorForeground,
               fontWeight: FontWeight.bold),
+          headlineMedium: TextStyle(
+              fontSize: 28.0,
+              color: colorForeground,
+              fontWeight: FontWeight.bold),
           headlineSmall: TextStyle(fontSize: 16.0, color: colorForegroundAlt),
           bodyMedium: TextStyle(
             fontSize: 16.0,
@@ -49,6 +53,9 @@ class StartPage extends StatelessWidget {
           bodySmall: TextStyle(
             fontSize: 14.0,
             color: colorForeground,
+          ),
+          labelSmall: TextStyle(
+            fontSize: 12.0,
           ),
         ),
       ),
@@ -80,15 +87,13 @@ class _StartWidgetState extends State<StartWidget> {
       // ignore: curly_braces_in_flow_control_structures, use_build_context_synchronously
       Navigator.of(context)
           .pushAndRemoveUntil(OnboardingPage.route(), (_) => false);
-    // .pushAndRemoveUntil(SignupPage.route(), (_) => false);
-    else {
-      // ignore: use_build_context_synchronously
+    else
       Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (_) => false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MessagingHub();
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }
