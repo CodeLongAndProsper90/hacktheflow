@@ -1,4 +1,6 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:hacktheflow/colors.dart';
+import 'package:hacktheflow/widgets/styled_text.dart';
 
 class Navbar extends StatefulWidget {
   const Navbar({super.key});
@@ -8,16 +10,42 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
+  final _pageIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(25.0),
       child: SizedBox(
-        height: 80.0,
+        height: 160.0,
         width: double.infinity,
         child: Stack(
           children: [
-            Text('hi'),
+            Container(
+              color: Colors.white,
+            ),
+            SizedBox(
+              height: 80,
+              width: double.infinity,
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      Icon(
+                        Icons.category_outlined,
+                        color:
+                            (_pageIndex == 0) ? colorBackground : colorAccent,
+                      ),
+                      if (_pageIndex == 0)
+                        const LabelText(
+                          'Discover',
+                          style: TextStyle(color: colorBackground),
+                        ),
+                    ],
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),

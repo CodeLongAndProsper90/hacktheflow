@@ -49,6 +49,9 @@ class StartPage extends StatelessWidget {
             fontSize: 14.0,
             color: colorForeground,
           ),
+          labelSmall: TextStyle(
+            fontSize: 12.0,
+          ),
         ),
       ),
       home: const StartWidget(title: 'Wynzo'),
@@ -79,13 +82,12 @@ class _StartWidgetState extends State<StartWidget> {
     if (session == null)
       Navigator.of(context)
           .pushAndRemoveUntil(OnboardingPage.route(), (_) => false);
-    // .pushAndRemoveUntil(SignupPage.route(), (_) => false);
     else
       Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (_) => false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: CircularProgressIndicator());
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }

@@ -81,8 +81,10 @@ class BodyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,
-        style: Theme.of(context).textTheme.bodyMedium?.merge(style));
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.bodyMedium?.merge(style),
+    );
   }
 }
 
@@ -96,6 +98,21 @@ class SmallText extends StatelessWidget {
     return Text(
       text,
       style: Theme.of(context).textTheme.bodySmall,
+    );
+  }
+}
+
+class LabelText extends StatelessWidget {
+  final String text;
+  final TextStyle? style;
+
+  const LabelText(this.text, {super.key, this.style});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.labelSmall?.merge(style),
     );
   }
 }
