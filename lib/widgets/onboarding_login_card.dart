@@ -6,12 +6,22 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
 
-class OnboardingLoginCard extends StatelessWidget {
-  OnboardingLoginCard({super.key});
+class OnboardingLoginCard extends StatefulWidget {
+	static Route<void> route() {
+		return MaterialPageRoute(
+			builder: (context) => OnboardingLoginCard()
+		);
+	}
+	OnboardingLoginCard({super.key});
+	@override
+	State<OnboardingLoginCard> createState() => OnboardingLoginCardState();
+}
 
+class OnboardingLoginCardState extends State<OnboardingLoginCard> {
   final formKey = GlobalKey<FormState>();
   final emailCon = TextEditingController();
   final passCon = TextEditingController();
+
 
   Future<void> login(context) async {
     await supabase.auth.signInWithPassword(

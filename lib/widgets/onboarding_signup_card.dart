@@ -5,15 +5,25 @@ import 'package:hacktheflow/widgets/styled_text.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
+class OnboardingSignupCard extends StatefulWidget {
+	static Route<void> route() {
+		return MaterialPageRoute(
+			builder: (context) => OnboardingSignupCard()
+		);
+	}
+	OnboardingSignupCard({super.key});
+	@override
+	State<OnboardingSignupCard> createState() => OnboardingSignupCardState();
+}
 
-class OnboardingSignupCard extends StatelessWidget {
-  OnboardingSignupCard({super.key});
+class OnboardingSignupCardState extends State<OnboardingSignupCard> {
 
   final formKey = GlobalKey<FormState>();
   final emailCon = TextEditingController();
   final passCon = TextEditingController();
   final userCon = TextEditingController();
   final zipCon = TextEditingController();
+
 
   Future<void> register(context) async {
     final isValid = formKey.currentState!.validate();
