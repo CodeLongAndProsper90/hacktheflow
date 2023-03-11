@@ -44,11 +44,11 @@ class _HomeDiscoverPageState extends State<HomeDiscoverPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Wyzno and profile picture
+                // Wynzo and profile picture
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const LogoText('Wyzno'),
+                    const LogoText('Wynzo'),
                     TextButton(
                       onPressed: () {
                         setState(() {

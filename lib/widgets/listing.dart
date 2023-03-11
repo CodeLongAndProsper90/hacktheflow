@@ -20,26 +20,22 @@ class ListingCardState extends State<ListingCard> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Future.wait([getUser(supabase.auth.currentUser!.id), getListing(widget.id)]),
+      future: Future.wait(
+          [getUser(supabase.auth.currentUser!.id), getListing(widget.id)]),
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-        if (!snapshot.hasData)
-					return SizedBox(
-						width: 100,
-						height: 100,
-						child: CircularProgressIndicator()
-					);
+        if (!snapshot.hasData) {
+          return const SizedBox(
+              width: 100, height: 100, child: CircularProgressIndicator());
+        }
         print(snapshot.data);
-				AppUser user = snapshot.data![0];
+        AppUser user = snapshot.data![0];
         Listing l = snapshot.data![1];
         return GestureDetector(
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
-                builder: (BuildContext context) => ProductViewPage(
-                  id: l.id,
-                  listing: l,
-									name: user.name
-                ),
+                builder: (BuildContext context) =>
+                    ProductViewPage(id: l.id, listing: l, name: user.name),
               ),
             );
           },
