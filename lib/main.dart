@@ -77,6 +77,7 @@ class _StartWidgetState extends State<StartWidget> {
   @override
   void initState() {
     super.initState();
+    _redirect();
   }
 
   Future<void> _redirect() async {

@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:hacktheflow/pages/home/discover.dart';
+import 'package:hacktheflow/pages/messaginghub.dart';
 import 'package:hacktheflow/widgets/navbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -36,22 +37,22 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+        body: Navbar(
+      onChange: (index) {
+        setState(() {
+          _pageIndex = index;
+        });
+      },
+      child: SafeArea(
         child: [
-          // HomeDiscoverPage(),
           Mainpage(),
+          // HomeDiscoverPage(),
+          // MessagingHub(),
           HomeMessagesPage(),
           HomeProfilePage(),
         ][_pageIndex],
       ),
-      bottomNavigationBar: Navbar(
-        onChange: (index) {
-          setState(() {
-            _pageIndex = index;
-          });
-        },
-      ),
-    );
+    ));
   }
 }
 
