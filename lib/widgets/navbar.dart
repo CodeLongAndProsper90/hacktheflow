@@ -108,7 +108,7 @@ class _NavbarState extends State<Navbar> {
                 begin: 0,
                 end: _pageIndex == targetIndex ? 1.0 : 0.0,
               ),
-              duration: const Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 100),
               curve: Curves.bounceInOut,
               builder: (context, double scale, child) {
                 return Transform.scale(
