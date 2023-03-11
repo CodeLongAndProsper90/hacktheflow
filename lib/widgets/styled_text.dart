@@ -33,11 +33,14 @@ class LogoSmallText extends StatelessWidget {
 class HeaderText extends StatelessWidget {
   final TextSpan? rich;
   final String? text;
+  final TextStyle? style;
 
+  // ignore: non_constant_identifier_names
   const HeaderText({
     super.key,
     this.rich,
     this.text,
+    this.style,
   });
 
   @override
@@ -45,12 +48,12 @@ class HeaderText extends StatelessWidget {
     return (rich != null)
         ? Text.rich(
             rich!,
-            style: Theme.of(context).textTheme.headlineLarge,
+            style: Theme.of(context).textTheme.headlineLarge?.merge(style),
             textAlign: TextAlign.center,
           )
         : Text(
             text!,
-            style: Theme.of(context).textTheme.headlineLarge,
+            style: Theme.of(context).textTheme.headlineLarge?.merge(style),
             textAlign: TextAlign.center,
           );
   }
