@@ -18,8 +18,11 @@ class ChatRoomPage extends StatefulWidget {
 }
 
 class _ChatRoomPageState extends State<ChatRoomPage> {
+  final chatCon = TextEditingController();
+
   final name = "John Doe";
   final status = "Online";
+
   List<Widget> messages = [
     MessageBubble(
       senderName: 'Jane Doe',
@@ -73,7 +76,9 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             .toList();
         return Scaffold(
           appBar: AppBar(
+            toolbarHeight: 128.0,
             titleSpacing: 16.0,
+            elevation: 0.0,
             backgroundColor: colorBackground,
             leading: IconButton(
               onPressed: () async {
@@ -92,10 +97,11 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   children: [
                     CircleAvatar(
                       child: Text(
+                        // TODO: name of other person
                         name.split(' ').map((e) => e[0].toUpperCase()).join(''),
                       ),
                     ),
-                    SizedBox(width: 8.0),
+                    const SizedBox(width: 8.0),
                     Wrap(
                       direction: Axis.vertical,
                       children: [
@@ -125,6 +131,48 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             itemBuilder: (context, index) {
               return messageWidgets[index];
             },
+          ),
+          bottomNavigationBar: Padding(
+            padding: EdgeInsets.only(
+              left: 20.0,
+              right: 20.0,
+              bottom: 20.0 + MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: TextField(
+              controller: chatCon,
+              onSubmitted: (value) {
+                // TODO: submit
+              },
+              decoration: InputDecoration(
+                fillColor: colorForeground,
+                filled: true,
+                focusColor: colorAccent,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                counterText: '${chatCon.text.length}/512 characters',
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: colorAccent),
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                suffixIcon: Icon(
+                  Icons.send_rounded,
+                  color:
+                      chatCon.text.isNotEmpty ? colorAccent : colorBackground,
+                ),
+                // TODO: wrong name
+                labelText: 'Message $name',
+                labelStyle: const TextStyle(color: colorBackground),
+                border: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: colorHint,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+              ),
+              style: const TextStyle(
+                color: colorBackground,
+              ),
+            ),
           ),
         );
       },
