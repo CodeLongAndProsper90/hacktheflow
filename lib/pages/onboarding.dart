@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:hacktheflow/colors.dart';
-import 'package:hacktheflow/pages/home.dart';
-import 'package:hacktheflow/widgets/navbar.dart';
 import 'package:hacktheflow/widgets/onboarding_login_card.dart';
 import 'package:hacktheflow/widgets/onboarding_signup_card.dart';
 import 'package:hacktheflow/widgets/styled_text.dart';

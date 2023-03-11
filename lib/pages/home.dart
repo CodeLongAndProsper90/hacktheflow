@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:typed_data';
+import 'package:hacktheflow/widgets/navbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:hacktheflow/backend/user.dart';
@@ -28,6 +29,7 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
       body: Center(
         child: Column(
           children: [
@@ -49,15 +51,42 @@ class HomePageState extends State<HomePage> {
 								}
 						),
             TextButton(
+=======
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            children: [
+              Text("Main page"),
+              TextField(
+                decoration: InputDecoration(labelText: "message"),
+                controller: msgCon,
+              ),
+              TextButton(
+                child: Text("Send"),
+                onPressed: () async {
+                  await send(
+                    to: "b7891604-2cff-48bb-ad00-bc9097af1086",
+                    contents: msgCon.text,
+                  );
+                },
+              ),
+              TextButton(
+>>>>>>> 2092dddd7505303d51d81d15ecf76cb295cf224b
                 child: Text("Sign out"),
                 onPressed: () async {
                   await supabase.auth.signOut();
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => StartPage()));
-                })
-          ],
+                    MaterialPageRoute(
+                      builder: (context) => StartPage(),
+                    ),
+                  );
+                },
+              )
+            ],
+          ),
         ),
       ),
+      bottomNavigationBar: const Navbar(),
     );
   }
 }
