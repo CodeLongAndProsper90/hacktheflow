@@ -36,7 +36,7 @@ class HeaderText extends StatelessWidget {
   final TextStyle? style;
 
   // ignore: non_constant_identifier_names
-  const HeaderText(String list_of_people, {
+  const HeaderText({
     super.key,
     this.rich,
     this.text,

@@ -83,11 +83,11 @@ class _StartWidgetState extends State<StartWidget> {
     await Future.delayed(Duration.zero);
     final session = supabase.auth.currentSession;
 
-    if (session == null)
+    if (session == null) {
       // ignore: curly_braces_in_flow_control_structures, use_build_context_synchronously
       Navigator.of(context)
           .pushAndRemoveUntil(OnboardingPage.route(), (_) => false);
-    else
+    } else {
       Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (_) => false);
     }
   }
