@@ -1,52 +1,24 @@
-
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hacktheflow/pages/home.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
 final supabase = Supabase.instance.client;
 
 class LoginPage extends StatefulWidget {
 	static Route<void> route() {
 		return MaterialPageRoute(
-			builder: (context) => LoginPage()
+			builder: (context) => LoginPage() 
 		);
 	}
-	const LoginPage({Key? key });
+	LoginPage ({Key? key});
 	@override
-	State<LoginPage> createState() => _LoginState();
+	State<LoginPage > createState() => LoginPageState();
 }
 
-class _LoginState extends State<LoginPage> {
-	final formKey = GlobalKey<FormState>();
-	String? validateNotNull(String? value) {
-		if (value == null || value.isEmpty)
-			return "Please enter a value";
-		return null;
-	}
+class LoginPageState extends State<LoginPage> {
 	final emailCon = TextEditingController();
 	final pwCon = TextEditingController();
-	final unCon = TextEditingController();
-	final zipCon = TextEditingController();
-
-	Future<void> register() async {
-		final isValid = formKey.currentState!.validate();
-		if (!isValid)
-			return;
-		final email = emailCon.text;
-		final passwd = pwCon.text;
-		final username = unCon.text;
-		final zip = zipCon.text;
-
-		await supabase.auth.signUp(
-			email: email,
-			password: passwd,
-			data: {
-				"username" : username,
-				"zipCode" : int.parse(zip),
-			},
-		);
-		Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (_) => false);
-	}
+	
+	final formKey = GlobalKey<FormState>();
 
 	@override
 	Widget build(BuildContext context) {
@@ -63,43 +35,30 @@ class _LoginState extends State<LoginPage> {
 											labelText: "Email"
 										),
 										controller: emailCon,
-										keyboardType: TextInputType.emailAddress,
-										validator: validateNotNull
+										keyboardType: TextInputType.emailAddress
 									),
 									TextFormField(
-										obscureText: true,
 										decoration: const InputDecoration(
 											labelText: "Password",
 										),
 										controller: pwCon,
-										validator: validateNotNull,
-									),
-									TextFormField(
-										decoration: const InputDecoration(
-											labelText: "Username"
-										),
-										controller: unCon,
-										validator: validateNotNull,
-									),
-									TextFormField(
-										decoration: const InputDecoration(
-											labelText: "Zip code",
-										),
-										controller: zipCon,
-										keyboardType: TextInputType.number,
-										validator: validateNotNull
+										obscureText: true
 									),
 									TextButton(
-										child: Text("Sign up"),
+										child: Text("Log in"),
 										onPressed: () async {
-											await register();
-										},
+											await supabase.auth.signInWithPassword(
+												email: emailCon.text,
+												password: pwCon.text
+											);
+											Navigator.of(context).push(HomePage.route());
+										}
 									),
 								]
-							),
-						)
+							)	
+						),
 					],
-				),
+				)
 			),
 		);
 	}

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hacktheflow/backend/user.dart';
+import 'package:hacktheflow/main.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+final supabase = Supabase.instance.client;
 
 class HomePage extends StatefulWidget {
 	static Route<void> route() {
@@ -20,6 +24,15 @@ class HomePageState extends State<HomePage> {
 				child: Column(
 					children: [
 						Text("Main page"),
+						TextButton(
+							child: Text(
+								"Sign out"
+							),
+							onPressed: () async {
+								await supabase.auth.signOut();
+								Navigator.of(context).push(MaterialPageRoute(builder: (context) => StartPage()));
+							}
+						)
 					],
 				),
 			),

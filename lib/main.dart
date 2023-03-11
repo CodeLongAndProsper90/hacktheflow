@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hacktheflow/pages/login.dart';
+import 'package:hacktheflow/pages/signup.dart';
+import 'package:hacktheflow/pages/home.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 final supabase = Supabase.instance.client;
 
@@ -24,21 +25,21 @@ class StartPage extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyStartPage(title: 'Wynzo'),
+      home: const StartWidget(title: 'Wynzo'),
     );
   }
 }
 
-class MyStartPage extends StatefulWidget {
-  const MyStartPage({Key? key, required this.title}) : super(key: key);
+class StartWidget extends StatefulWidget {
+  const StartWidget({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyStartPage> createState() => _MyStartPageState();
+  State<StartWidget> createState() => _StartWidgetState();
 }
 
-class _MyStartPageState extends State<MyStartPage> {
+class _StartWidgetState extends State<StartWidget> {
 	@override
 	void initState() {
 		super.initState();
@@ -48,10 +49,9 @@ class _MyStartPageState extends State<MyStartPage> {
 		await Future.delayed(Duration.zero);
 		final session = supabase.auth.currentSession;
 		if (session == null)
-			Navigator.of(context).pushAndRemoveUntil(LoginPage.route(), (_) => false);
+			Navigator.of(context).pushAndRemoveUntil(SignupPage.route(), (_) => false);
 		else
-			// Navigator.of(context).pushAndRemoveUntil(MainPage.route(), (_) => false);
-			print("TODO: Make main page");
+			Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (_) => false);
 	}
   @override
   Widget build(BuildContext context) {
