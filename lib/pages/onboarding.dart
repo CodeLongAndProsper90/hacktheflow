@@ -37,7 +37,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
       body: WillPopScope(
         onWillPop: () async {
           if (modalOpen) {
@@ -49,19 +48,21 @@ class _OnboardingPageState extends State<OnboardingPage> {
           }
           return false;
         },
-        child: Stack(
-          children: [
-            OverflowBox(
-              maxHeight: double.infinity,
-              child: Column(
+        child: LayoutBuilder(builder: (context, constraints) {
+          var screenHeight = constraints.maxHeight;
+          var screenWidth = constraints.maxWidth;
+
+          return Stack(
+            children: [
+              Column(
                 children: [
                   // Upper portion
                   Stack(
                     children: [
                       Image.asset(
                         'assets/images/bg_towers.jpg',
-                        height: MediaQuery.of(context).size.height * 0.55,
-                        width: MediaQuery.of(context).size.width,
+                        height: screenHeight * 0.55,
+                        width: screenWidth,
                         fit: BoxFit.cover,
                         alignment: Alignment.bottomCenter,
                       ),
@@ -82,7 +83,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   // Lower portion
                   SizedBox(
                     // TODO: replace hardcoded value?
-                    height: MediaQuery.of(context).size.height * 0.45,
+                    height: screenHeight * 0.45,
                     child: Column(
                       children: [
                         Padding(
@@ -149,20 +150,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   )
                 ],
               ),
-            ),
 
-            // Modal
-            // TODO: this causes the background to immediately disappear rather than fade outs
-            // without it, you wouldn't be able to click on anything when the dialog is closed
-            if (modalOpen)
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    modalOpen = false;
-                    FocusManager.instance.primaryFocus?.unfocus();
-                  });
-                },
-                child: TweenAnimationBuilder(
+              // Modal
+              // TODO: this causes the background to immediately disappear rather than fade outs
+              // without it, you wouldn't be able to click on anything when the dialog is closed
+              if (modalOpen)
+                TweenAnimationBuilder(
                   tween: Tween<double>(
                     begin: 0.0,
                     end: modalOpen ? 1.0 : 0.0,
@@ -177,48 +170,83 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   },
                   child: Container(color: Colors.black.withOpacity(0.35)),
                 ),
-              ),
-            TweenAnimationBuilder(
-              tween: Tween<double>(
-                begin: 0,
-                end: modalOpen ? 1.0 : 0.0,
-              ),
-              duration: modalPopupDuration,
-              curve: Curves.bounceInOut,
-              builder: (context, double scale, child) {
-                return Transform.scale(
-                  scale: scale,
-                  child: child,
-                );
-              },
-              child: Center(
-                child: Swipe(
-                  onSwipeLeft: () {
-                    Scrollable.ensureVisible(
-                      loginKey.currentContext!,
-                      duration: modalScrollDuration,
-                    );
-                  },
-                  onSwipeRight: () {
-                    Scrollable.ensureVisible(
-                      signupKey.currentContext!,
-                      duration: modalScrollDuration,
-                    );
-                  },
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    physics: const NeverScrollableScrollPhysics(),
-                    child: Row(
-                      children: [
-                        OnboardingSignupCard(key: signupKey),
-                        OnboardingLoginCard(key: loginKey),
-                      ],
+              TweenAnimationBuilder(
+                tween: Tween<double>(
+                  begin: 0,
+                  end: modalOpen ? 1.0 : 0.0,
+                ),
+                duration: modalPopupDuration,
+                curve: Curves.bounceInOut,
+                builder: (context, double scale, child) {
+                  return Transform.scale(
+                    scale: scale,
+                    child: child,
+                  );
+                },
+                child: Center(
+                  child: Swipe(
+                    onSwipeLeft: () {
+                      Scrollable.ensureVisible(
+                        loginKey.currentContext!,
+                        duration: modalScrollDuration,
+                      );
+                    },
+                    onSwipeRight: () {
+                      Scrollable.ensureVisible(
+                        signupKey.currentContext!,
+                        duration: modalScrollDuration,
+                      );
+                    },
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: const NeverScrollableScrollPhysics(),
+                      child: Row(
+                        children: [
+                          OnboardingSignupCard(
+                            screenHeight: screenHeight,
+                            screenWidth: screenWidth,
+                            key: signupKey,
+                          ),
+                          OnboardingLoginCard(
+                            screenHeight: screenHeight,
+                            screenWidth: screenWidth,
+                            key: loginKey,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          );
+        }),
+      ),
+      floatingActionButton: TweenAnimationBuilder(
+        tween: Tween<double>(
+          begin: 0,
+          end: modalOpen ? 1.0 : 0.0,
+        ),
+        duration: modalPopupDuration,
+        curve: Curves.bounceInOut,
+        builder: (context, double scale, child) {
+          return Transform.scale(
+            scale: scale,
+            child: child,
+          );
+        },
+        child: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              modalOpen = false;
+              FocusManager.instance.primaryFocus?.unfocus();
+            });
+          },
+          backgroundColor: colorAccent,
+          child: const Icon(
+            Icons.close,
+            color: colorForeground,
+          ),
         ),
       ),
     );

@@ -6,42 +6,35 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
 
-class OnboardingSignupCard extends StatelessWidget {
-  OnboardingSignupCard({super.key});
+class OnboardingSignupCard extends StatefulWidget {
+  final double screenHeight;
+  final double screenWidth;
 
+  const OnboardingSignupCard({
+    super.key,
+    required this.screenHeight,
+    required this.screenWidth,
+  });
+
+  @override
+  State<OnboardingSignupCard> createState() => _OnboardingSignupCardState();
+}
+
+class _OnboardingSignupCardState extends State<OnboardingSignupCard> {
   final formKey = GlobalKey<FormState>();
   final emailCon = TextEditingController();
   final passCon = TextEditingController();
   final userCon = TextEditingController();
   final zipCon = TextEditingController();
 
-  Future<void> register(context) async {
-    final isValid = formKey.currentState!.validate();
-    if (!isValid) return;
-    final email = emailCon.text;
-    final passwd = passCon.text;
-    final username = userCon.text;
-    final zip = zipCon.text;
-
-    await supabase.auth.signUp(
-      email: email,
-      password: passwd,
-      data: {
-        'username': username,
-        'zipCode': int.parse(zip),
-      },
-    );
-    Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (_) => false);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: MediaQuery.of(context).size.width * 0.1,
+        left: widget.screenWidth * 0.1,
       ),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: widget.screenWidth * 0.8,
         child: Card(
           color: colorBackground,
           shape: RoundedRectangleBorder(
@@ -119,6 +112,25 @@ class OnboardingSignupCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> register(context) async {
+    final isValid = formKey.currentState!.validate();
+    if (!isValid) return;
+    final email = emailCon.text;
+    final passwd = passCon.text;
+    final username = userCon.text;
+    final zip = zipCon.text;
+
+    await supabase.auth.signUp(
+      email: email,
+      password: passwd,
+      data: {
+        'username': username,
+        'zipCode': int.parse(zip),
+      },
+    );
+    Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (_) => false);
   }
 
   String? validateNotNull(String? value) {
