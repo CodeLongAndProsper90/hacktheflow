@@ -26,6 +26,7 @@ class _OnboardingSignupCardState extends State<OnboardingSignupCard> {
   final passCon = TextEditingController();
   final userCon = TextEditingController();
   final zipCon = TextEditingController();
+	final nameCon = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +75,11 @@ class _OnboardingSignupCardState extends State<OnboardingSignupCard> {
                           passCon,
                           obscureText: true,
                         ),
-                        // const SizedBox(height: 15.0),
-                        // styledTextFormField(
-                        //   'Username',
-                        //   userCon,
-                        // ),
+                        const SizedBox(height: 15.0),
+                        styledTextFormField(
+                          'Full Name',
+                          nameCon,
+                        ),
                         const SizedBox(height: 15.0),
                         styledTextFormField(
                           'Zip code',
@@ -128,6 +129,7 @@ class _OnboardingSignupCardState extends State<OnboardingSignupCard> {
     final passwd = passCon.text;
     final username = userCon.text;
     final zip = zipCon.text;
+		final name = nameCon.text;
 
     await supabase.auth.signUp(
       email: email,
@@ -135,6 +137,7 @@ class _OnboardingSignupCardState extends State<OnboardingSignupCard> {
       data: {
         'username': username,
         'zipCode': int.parse(zip),
+				'name': name
       },
     );
     Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (_) => false);

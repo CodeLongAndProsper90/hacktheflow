@@ -18,6 +18,7 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+		print(this.senderName);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -26,7 +27,10 @@ class MessageBubble extends StatelessWidget {
         children: [
           CircleAvatar(
             child: Text(
-              senderName.split(' ').map((e) => e[0].toUpperCase()).join(''),
+              senderName.split(' ').map((e) {
+								if (e == '') return '';
+								return e[0].toUpperCase();
+							}).join(''),
             ),
           ),
           const SizedBox(width: 8.0),
