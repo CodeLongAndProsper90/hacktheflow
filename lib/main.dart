@@ -29,16 +29,27 @@ class StartPage extends StatelessWidget {
         textTheme: const TextTheme(
           displayMedium: TextStyle(
               fontSize: 64.0,
+              color: colorForeground,
               fontFamily: 'Phenomena',
               fontWeight: FontWeight.bold),
           displaySmall: TextStyle(
               fontSize: 48.0,
+              color: colorForeground,
               fontFamily: 'Phenomena',
               fontWeight: FontWeight.bold),
-          headlineLarge: TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold),
+          headlineLarge: TextStyle(
+              fontSize: 36.0,
+              color: colorForeground,
+              fontWeight: FontWeight.bold),
           headlineSmall: TextStyle(fontSize: 16.0, color: colorForegroundAlt),
-          bodyMedium: TextStyle(fontSize: 16.0),
-          bodySmall: TextStyle(fontSize: 14.0),
+          bodyMedium: TextStyle(
+            fontSize: 16.0,
+            color: colorForeground,
+          ),
+          bodySmall: TextStyle(
+            fontSize: 14.0,
+            color: colorForeground,
+          ),
         ),
       ),
       home: const StartWidget(title: 'Wynzo'),

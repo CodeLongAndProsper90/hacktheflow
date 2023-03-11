@@ -2,28 +2,30 @@ import 'package:flutter/material.dart';
 
 class LogoText extends StatelessWidget {
   final String text;
+  final Color? color;
 
-  const LogoText(this.text, {super.key});
+  const LogoText(this.text, {super.key, this.color});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: Theme.of(context).textTheme.displayMedium,
+      style: Theme.of(context).textTheme.displayMedium?.copyWith(color: color),
     );
   }
 }
 
 class LogoSmallText extends StatelessWidget {
   final String text;
+  final Color? color;
 
-  const LogoSmallText(this.text, {super.key});
+  const LogoSmallText(this.text, {super.key, this.color});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: Theme.of(context).textTheme.displaySmall,
+      style: Theme.of(context).textTheme.displaySmall?.copyWith(color: color),
     );
   }
 }
@@ -65,9 +67,7 @@ class SubheaderText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: style != null
-          ? style?.merge(Theme.of(context).textTheme.headlineSmall)
-          : Theme.of(context).textTheme.headlineSmall,
+      style: Theme.of(context).textTheme.headlineSmall?.merge(style),
       textAlign: textAlign,
     );
   }
@@ -81,12 +81,8 @@ class BodyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: style != null
-          ? style?.merge(Theme.of(context).textTheme.bodyMedium)
-          : Theme.of(context).textTheme.bodyMedium,
-    );
+    return Text(text,
+        style: Theme.of(context).textTheme.bodyMedium?.merge(style));
   }
 }
 
