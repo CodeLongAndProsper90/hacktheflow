@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hacktheflow/backend/user.dart';
 import 'package:hacktheflow/main.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:hacktheflow/widgets/message.dart';
+
 final supabase = Supabase.instance.client;
 
 class HomePage extends StatefulWidget {
@@ -24,6 +26,11 @@ class HomePageState extends State<HomePage> {
 				child: Column(
 					children: [
 						Text("Main page"),
+						MessageBubble(
+							contents: "Test",
+							sender_name: "Bill Gates",
+							sent_at: DateTime.now()
+						),
 						TextButton(
 							child: Text(
 								"Sign out"
