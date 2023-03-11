@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:typed_data';
+import 'package:image_picker/image_picker.dart';
 final supabase = Supabase.instance.client;
 
 class Listing {
@@ -56,17 +57,22 @@ Future<Listing?> getListing(String id) async {
 	print(data);
 }
 
-Future<void> addListing(String title, String desc, String owner, List<Uint8List> images) async {
+Future<Listing> addListing(String title, String desc, String owner, List<XFile> images) async {
 	var data = await supabase.from("listings").insert({
 		"title" : title,
 		"description" : desc,
 		"owner_id": owner
 	}).select();
 	print(data);
-	Listing l = Listing.fromJSON(data);
-	String path = "/${l.id}/";
-	for (Uint8List img in images) {
-		print(img);
+	Listing l = Listing.fromJSON(data[0]);
+	int counter = 0;
+	for (XFile img in images) {
+		final data = await img.readAsBytes();
+		String img_path = "${l.id}/${counter}.png";
+		print(img_path);
+		String p = await supabase.storage.from("images").uploadBinary(img_path, data, fileOptions: FileOptions(contentType: img.mimeType));
+		counter++;
 	}
+	return l;
 
 }
