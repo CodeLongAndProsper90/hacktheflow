@@ -10,11 +10,16 @@ class Navbar extends StatefulWidget {
 class _NavbarState extends State<Navbar> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Stack(
-        children: [
-          Text('hi'),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(25.0),
+      child: SizedBox(
+        height: 80.0,
+        width: double.infinity,
+        child: Stack(
+          children: [
+            Text('hi'),
+          ],
+        ),
       ),
     );
   }

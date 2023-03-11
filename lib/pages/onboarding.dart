@@ -8,6 +8,7 @@ import 'package:hacktheflow/widgets/onboarding_login_card.dart';
 import 'package:hacktheflow/widgets/onboarding_signup_card.dart';
 import 'package:hacktheflow/widgets/styled_text.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:swipe/swipe.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -103,6 +104,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       Padding(
                         padding: const EdgeInsets.all(25.0),
                         child: SizedBox(
+                          height: 80.0,
                           width: double.infinity,
                           child: TextButton(
                             onPressed: () {
@@ -119,7 +121,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               ),
                               padding: MaterialStateProperty.all(
                                 const EdgeInsets.symmetric(
-                                  vertical: 24.0,
                                   horizontal: 48.0,
                                 ),
                               ),
@@ -179,39 +180,28 @@ class _OnboardingPageState extends State<OnboardingPage> {
               );
             },
             child: Center(
-              // TODO: programmatically scroll
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                physics: const NeverScrollableScrollPhysics(),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      key: signupKey,
-                      onTap: () {
-                        if (!modalSide) {
-                          modalSide = true;
-                          Scrollable.ensureVisible(
-                            signupKey.currentContext!,
-                            duration: modalScrollDuration,
-                          );
-                        }
-                      },
-                      child: OnboardingSignupCard(),
-                    ),
-                    GestureDetector(
-                      key: loginKey,
-                      onTap: () {
-                        if (modalSide) {
-                          modalSide = false;
-                          Scrollable.ensureVisible(
-                            loginKey.currentContext!,
-                            duration: modalScrollDuration,
-                          );
-                        }
-                      },
-                      child: OnboardingLoginCard(),
-                    ),
-                  ],
+              child: Swipe(
+                onSwipeLeft: () {
+                  Scrollable.ensureVisible(
+                    loginKey.currentContext!,
+                    duration: modalScrollDuration,
+                  );
+                },
+                onSwipeRight: () {
+                  Scrollable.ensureVisible(
+                    signupKey.currentContext!,
+                    duration: modalScrollDuration,
+                  );
+                },
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const NeverScrollableScrollPhysics(),
+                  child: Row(
+                    children: [
+                      OnboardingSignupCard(key: signupKey),
+                      OnboardingLoginCard(key: loginKey),
+                    ],
+                  ),
                 ),
               ),
             ),
