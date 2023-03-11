@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hacktheflow/colors.dart';
 import 'package:hacktheflow/widgets/styled_text.dart';
+import 'package:hacktheflow/backend/listing.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:typed_data';
+final supabase = Supabase.instance.client;
 
 class AddListingPage extends StatefulWidget {
   const AddListingPage({super.key});
@@ -14,6 +17,7 @@ class AddListingPage extends StatefulWidget {
 class _AddListingPageState extends State<AddListingPage> {
   final formKey = GlobalKey<FormState>();
   final productNameCon = TextEditingController();
+	final priceCon = TextEditingController();
   final productDescCon = TextEditingController();
 
   final ImagePicker _p = ImagePicker();
@@ -67,7 +71,7 @@ class _AddListingPageState extends State<AddListingPage> {
                         children: [
                           Row(
                             children: [
-                              const LargeText('I\'m selling'),
+                              const LargeText('I\'m selling:'),
                               const SizedBox(width: 8.0),
                               Expanded(
                                 child: styledTextFormField(
@@ -90,6 +94,20 @@ class _AddListingPageState extends State<AddListingPage> {
                               ),
                             ],
                           ),
+                          const SizedBox(height: 16.0),
+                          Row(
+                            children: [
+                              const LargeText('How much?'),
+                              const SizedBox(width: 8.0),
+                              Expanded(
+                                child: styledTextFormField(
+                                  '\$1.00',
+                                  priceCon,
+																	keyboardType: TextInputType.number,
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -107,8 +125,16 @@ class _AddListingPageState extends State<AddListingPage> {
         child: SizedBox(
           height: 80.0,
           child: TextButton(
-            onPressed: () {
-              // Magic
+            onPressed: () async {
+							await addListing(
+								title: productNameCon.text,
+								desc: productDescCon.text,
+								owner: supabase.auth.currentUser!.id,
+								price: double.parse(priceCon.text),
+								images: [ image! ],
+							);
+							setState(() {});
+							Navigator.of(context).pop();
             },
             style: ButtonStyle(
               shape: MaterialStateProperty.all(
@@ -145,8 +171,10 @@ class _AddListingPageState extends State<AddListingPage> {
   }
 
   TextFormField styledTextFormField(
-      String labelText, TextEditingController controller) {
+      String labelText, TextEditingController controller,
+			{TextInputType? keyboardType}) {
     return TextFormField(
+			keyboardType: keyboardType,
       decoration: InputDecoration(
         labelText: labelText,
         border: OutlineInputBorder(
