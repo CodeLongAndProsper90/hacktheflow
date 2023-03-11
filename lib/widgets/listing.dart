@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hacktheflow/colors.dart';
+import 'package:hacktheflow/pages/product_view.dart';
+import 'package:hacktheflow/widgets/styled_text.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hacktheflow/backend/listing.dart';
 
@@ -22,14 +25,86 @@ class ListingCardState extends State<ListingCard> {
         print(snapshot.data);
 
         Listing l = snapshot.data!;
-        return ListTile(
-          leading: SizedBox(
-            width: 50,
-            height: 50,
-            child: Image.memory(l.images[0]),
+        return GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => ProductViewPage(
+                  id: l.id,
+                  listing: l,
+                ),
+              ),
+            );
+          },
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            elevation: 4.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    SizedBox(
+                      height: 250,
+                      width: double.infinity,
+                      child: Hero(
+                        tag: l.id,
+                        child: Image.memory(
+                          l.images[0],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 16,
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        color: colorBackground,
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(16.0),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: colorAccent,
+                      ),
+                      margin: const EdgeInsets.only(left: 16.0),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 6.0,
+                        horizontal: 12.0,
+                      ),
+                      child: Text(
+                        '\$0.00',
+                        style: const TextStyle(
+                          color: colorAccentAlt,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8.0),
+                    LargeText(l.title),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 16.0,
+                    bottom: 16.0,
+                    top: 8.0,
+                  ),
+                  child: BodyText(l.desc),
+                ),
+              ],
+            ),
           ),
-          title: Text(l.title),
-          subtitle: Text(l.desc),
         );
       },
     );
