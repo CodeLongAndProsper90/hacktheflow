@@ -35,78 +35,85 @@ class _OnboardingSignupCardState extends State<OnboardingSignupCard> {
       ),
       child: SizedBox(
         width: widget.screenWidth * 0.8,
-        child: Card(
-          color: colorBackground,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25.0),
-          ),
-          margin: const EdgeInsets.all(32.0),
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const HeaderText(text: 'Welcome!'),
-                const SizedBox(height: 25.0),
-                const SubheaderText(
-                  'Use your email to create a new account',
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 40),
-                Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      styledTextFormField(
-                        'Email',
-                        emailCon,
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                      const SizedBox(height: 15.0),
-                      styledTextFormField(
-                        'Password',
-                        passCon,
-                        obscureText: true,
-                      ),
-                      // const SizedBox(height: 15.0),
-                      // styledTextFormField(
-                      //   'Username',
-                      //   userCon,
-                      // ),
-                      const SizedBox(height: 15.0),
-                      styledTextFormField(
-                        'Zip code',
-                        zipCon,
-                        keyboardType: TextInputType.number,
-                      ),
-                      const SizedBox(height: 15.0),
-                      SizedBox(
-                        width: double.infinity,
-                        child: TextButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                              const StadiumBorder(),
+        child: SingleChildScrollView(
+          child: Card(
+            color: colorBackground,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+            margin: const EdgeInsets.all(32.0),
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const HeaderText(text: 'Welcome!'),
+                  const SizedBox(height: 25.0),
+                  const SubheaderText(
+                    'Use your email to create a new account',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 40),
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        styledTextFormField(
+                          'Email',
+                          emailCon,
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(height: 15.0),
+                        styledTextFormField(
+                          'Username',
+                          userCon,
+                        ),
+                        const SizedBox(height: 15.0),
+                        styledTextFormField(
+                          'Password',
+                          passCon,
+                          obscureText: true,
+                        ),
+                        // const SizedBox(height: 15.0),
+                        // styledTextFormField(
+                        //   'Username',
+                        //   userCon,
+                        // ),
+                        const SizedBox(height: 15.0),
+                        styledTextFormField(
+                          'Zip code',
+                          zipCon,
+                          keyboardType: TextInputType.number,
+                        ),
+                        const SizedBox(height: 15.0),
+                        SizedBox(
+                          width: double.infinity,
+                          child: TextButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                const StadiumBorder(),
+                              ),
+                              backgroundColor: MaterialStateProperty.all(
+                                colorForeground,
+                              ),
+                              padding: MaterialStateProperty.all(
+                                const EdgeInsets.symmetric(vertical: 16),
+                              ),
                             ),
-                            backgroundColor: MaterialStateProperty.all(
-                              colorForeground,
+                            onPressed: () async {
+                              await register(context);
+                            },
+                            child: const Text(
+                              "Sign up",
+                              style: TextStyle(color: colorBackground),
                             ),
-                            padding: MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(vertical: 16),
-                            ),
-                          ),
-                          onPressed: () async {
-                            await register(context);
-                          },
-                          child: const Text(
-                            "Sign up",
-                            style: TextStyle(color: colorBackground),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
