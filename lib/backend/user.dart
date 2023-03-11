@@ -21,4 +21,20 @@ class User {
 			"zip" : zip
 		};
 	}
+	Future<Uint8List> getAvatar() async {
+		return await supabase.storage.from("avatar").download("${this.id}/avatar.png");
+	}
+	Future<void> setAvatar(XFile img) async {
+		final data = await img.readAsBytes();
+		String path = "${this.id}/avatar.png";
+		await supabase.storage.from("avatar")
+				.uploadBinary(
+					path,
+					data,
+					fileOptions: FileOptions(
+						contentType: img.mimeType
+					)
+				);
+	}
+	
 }
