@@ -110,7 +110,8 @@ class _HomeDiscoverPageState extends State<HomeDiscoverPage> {
                       .map((list) => ListingCard(id: list.id))
                       .toList(),
                 ),
-              )
+              ),
+							SizedBox(height: 75),
             ],
           ),
         );
