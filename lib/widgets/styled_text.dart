@@ -94,6 +94,21 @@ class SubheaderText extends StatelessWidget {
   }
 }
 
+class LargeText extends StatelessWidget {
+  final String text;
+  final TextStyle? style;
+
+  const LargeText(this.text, {super.key, this.style});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.bodyLarge?.merge(style),
+    );
+  }
+}
+
 class BodyText extends StatelessWidget {
   final String text;
   final TextStyle? style;

@@ -22,6 +22,7 @@ class _HomeDiscoverPageState extends State<HomeDiscoverPage> {
       padding: const EdgeInsets.all(30.0),
       child: Column(
         children: [
+          // Wyzno and profile picture
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -29,6 +30,8 @@ class _HomeDiscoverPageState extends State<HomeDiscoverPage> {
               ProfilePicture(name: name, radius: 40.0),
             ],
           ),
+
+          // Search bar
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: TextField(
@@ -49,6 +52,8 @@ class _HomeDiscoverPageState extends State<HomeDiscoverPage> {
               ),
             ),
           ),
+
+          // The listings... soon:tm:
           ListingCard(id: "2fa01d64-8b12-4bce-9981-b8521ae23482"),
         ],
       ),

@@ -11,6 +11,7 @@ class MessagingHub extends StatelessWidget {
     "mary": "descriptions2",
     "john": "descriptions3"
   };
+
   // list -> int ->  to list of name of person and his description
   MessagingHub({super.key});
 

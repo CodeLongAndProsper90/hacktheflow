@@ -46,17 +46,13 @@ class StartPage extends StatelessWidget {
               color: colorForeground,
               fontWeight: FontWeight.bold),
           headlineSmall: TextStyle(fontSize: 16.0, color: colorForegroundAlt),
-          bodyMedium: TextStyle(
-            fontSize: 16.0,
-            color: colorForeground,
-          ),
-          bodySmall: TextStyle(
-            fontSize: 14.0,
-            color: colorForeground,
-          ),
-          labelSmall: TextStyle(
-            fontSize: 12.0,
-          ),
+          bodyLarge: TextStyle(
+              fontSize: 20.0,
+              color: colorForeground,
+              fontWeight: FontWeight.bold),
+          bodyMedium: TextStyle(fontSize: 16.0, color: colorForeground),
+          bodySmall: TextStyle(fontSize: 14.0, color: colorForeground),
+          labelSmall: TextStyle(fontSize: 12.0),
         ),
       ),
       home: const StartWidget(title: 'Wynzo'),

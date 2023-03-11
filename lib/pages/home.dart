@@ -1,23 +1,25 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:hacktheflow/pages/home/discover.dart';
-import 'package:hacktheflow/pages/messaginghub.dart';
-import 'package:hacktheflow/widgets/messaging_room.dart';
-import 'package:hacktheflow/widgets/navbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:hacktheflow/backend/user.dart';
+
 import 'package:hacktheflow/main.dart';
+
+import 'package:hacktheflow/pages/home/profile.dart';
+import 'package:hacktheflow/pages/home/profile.dart';
+import 'package:hacktheflow/pages/chat_room.dart';
+import 'package:hacktheflow/pages/home/discover.dart';
+import 'package:hacktheflow/pages/home/open_chats.dart';
+import 'package:hacktheflow/pages/messaginghub.dart';
+
+import 'package:hacktheflow/widgets/messaging_room.dart';
+import 'package:hacktheflow/widgets/navbar.dart';
 import 'package:hacktheflow/widgets/message_bubble.dart';
+
 import 'package:hacktheflow/backend/message.dart';
 import 'package:hacktheflow/backend/listing.dart';
-
-import 'package:hacktheflow/pages/home/profile.dart';
-
-import 'package:hacktheflow/pages/home/profile.dart';
-
-import 'home/messages.dart';
+import 'package:hacktheflow/backend/user.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -47,10 +49,11 @@ class HomePageState extends State<HomePage> {
       child: SafeArea(
         child: [
           // Mainpage(),
-          HomeDiscoverPage(),
-          // MessagingHub(),
           // Messanger(personconnected: 'Jane Doe'),
-          HomeMessagesPage(to_id: "b7891604-2cff-48bb-ad00-bc9097af1086"),
+          HomeDiscoverPage(),
+          HomeOpenChatsPage(),
+          // MessagingHub(),
+          // HomeMessagesPage(to_id: "b7891604-2cff-48bb-ad00-bc9097af1086"),
           HomeProfilePage(),
         ][_pageIndex],
       ),

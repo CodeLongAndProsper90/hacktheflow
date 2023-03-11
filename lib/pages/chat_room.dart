@@ -8,16 +8,16 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
 
-class HomeMessagesPage extends StatefulWidget {
+class ChatRoomPage extends StatefulWidget {
   final String to_id;
 
-  const HomeMessagesPage({super.key, required this.to_id});
+  const ChatRoomPage({super.key, required this.to_id});
 
   @override
-  State<HomeMessagesPage> createState() => _HomeMessagesPageState();
+  State<ChatRoomPage> createState() => _ChatRoomPageState();
 }
 
-class _HomeMessagesPageState extends State<HomeMessagesPage> {
+class _ChatRoomPageState extends State<ChatRoomPage> {
   final name = "John Doe";
   final status = "Online";
   List<Widget> messages = [
@@ -77,7 +77,7 @@ class _HomeMessagesPageState extends State<HomeMessagesPage> {
             backgroundColor: colorBackground,
             leading: IconButton(
               onPressed: () async {
-                // pop
+                Navigator.of(context).pop();
               },
               icon: const Icon(
                 Icons.arrow_back_ios_rounded,
