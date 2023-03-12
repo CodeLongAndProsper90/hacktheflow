@@ -26,6 +26,27 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    return TextButton(
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 10.0,
+          horizontal: 20.0,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.circular(100.0),
+        ),
+        child: Text(
+          "Sign out",
+          style: const TextStyle(color: colorBackground),
+        ),
+      ),
+      onPressed: () async {
+        await supabase.auth.signOut();
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => StartWidget(title: "Wynzo")));
+      },
+    );
     return FutureBuilder(
       future: getData(),
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
@@ -61,25 +82,26 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
               const SizedBox(height: 15.0),
               SizedBox(height: 64.0),
               TextButton(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10.0,
-                      horizontal: 20.0,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(100.0),
-                    ),
-                    child: Text(
-                      "Sign out",
-                      style: const TextStyle(color: colorBackground),
-                    ),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 20.0,
                   ),
-                  onPressed: () async {
-                    await supabase.auth.signOut();
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => StartWidget(title: "Wynzo")));
-                  }),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(100.0),
+                  ),
+                  child: Text(
+                    "Sign out",
+                    style: const TextStyle(color: colorBackground),
+                  ),
+                ),
+                onPressed: () async {
+                  await supabase.auth.signOut();
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => StartWidget(title: "Wynzo")));
+                },
+              ),
               SizedBox(height: 64.0),
               // TextButton(
               //     child: Text("Add a listing"),

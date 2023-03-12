@@ -25,14 +25,6 @@ class _OnboardingLoginCardState extends State<OnboardingLoginCard> {
   final emailCon = TextEditingController();
   final passCon = TextEditingController();
 
-  Future<void> login(context) async {
-    await supabase.auth.signInWithPassword(
-      email: emailCon.text,
-      password: passCon.text,
-    );
-    Navigator.of(context).push(HomePage.route());
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -107,6 +99,14 @@ class _OnboardingLoginCardState extends State<OnboardingLoginCard> {
         ),
       ),
     );
+  }
+
+  Future<void> login(context) async {
+    await supabase.auth.signInWithPassword(
+      email: emailCon.text,
+      password: passCon.text,
+    );
+    Navigator.of(context).pushAndRemoveUntil(HomePage.route(), (_) => false);
   }
 
   String? validateNotNull(String? value) {

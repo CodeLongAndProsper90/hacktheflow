@@ -34,7 +34,7 @@ class ListingCardState extends State<ListingCard> {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (BuildContext context) =>
-                    ProductViewPage(id: l.id, listing: l, name: user.name),
+                    ProductViewPage(id: l.id, listing: l),
               ),
             );
           },

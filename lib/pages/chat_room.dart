@@ -30,7 +30,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
       clientSent: d.mine,
     );
   }
-	late final Timer timer;
+
+  late final Timer timer;
   final status = "Online";
 
   @override
@@ -38,21 +39,22 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     msgStream = supabase
         .from("messages")
         .stream(primaryKey: ["id"]).order("created_at");
-		timer = Timer.periodic(Duration(seconds: 1), (_) => setState((){}));
+    timer = Timer.periodic(Duration(seconds: 1), (_) => setState(() {}));
     super.initState();
   }
 
-	@override
-	void dispose() {
-		timer.cancel();
-		super.dispose();
-	}
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
 
   List<Map<String, dynamic>> messages_w = [];
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Future.wait([getUser(widget.to_id), getUser(supabase.auth.currentUser!.id)]),
+      future: Future.wait(
+          [getUser(widget.to_id), getUser(supabase.auth.currentUser!.id)]),
       builder: (BuildContext context, AsyncSnapshot<List<AppUser>> snapshot) {
         if (!snapshot.hasData) {
           return const Center(
@@ -61,9 +63,9 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
         }
 
         AppUser user = snapshot.data![0];
-				print(user.name);
-				AppUser me = snapshot.data![1];
-				print(me.name);
+        print(user.name);
+        AppUser me = snapshot.data![1];
+        print(me.name);
         return Scaffold(
           appBar: AppBar(
             toolbarHeight: 128.0,
@@ -89,9 +91,9 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                       child: Text(
                         // TODO: name of other person
                         user.name.split(' ').map((e) {
-													if (e == '') return '';
-													return e[0].toUpperCase();
-												}).join(''),
+                          if (e == '') return '';
+                          return e[0].toUpperCase();
+                        }).join(''),
                       ),
                     ),
                     const SizedBox(width: 8.0),
@@ -129,7 +131,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
 
                 return ListView(
                     children: snapshot.data!
-                        .map((x) => makeBubble(x, x.mine ? me.name : user.name ))
+                        .map((x) => makeBubble(x, x.mine ? me.name : user.name))
                         .toList());
               }),
           bottomNavigationBar: Padding(
@@ -140,7 +142,9 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             ),
             child: TextField(
               controller: chatCon,
-              onSubmitted: (value) {},
+              onChanged: (value) {
+                setState(() {});
+              },
               decoration: InputDecoration(
                 fillColor: colorForeground,
                 filled: true,

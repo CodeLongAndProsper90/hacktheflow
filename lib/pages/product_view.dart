@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hacktheflow/backend/listing.dart';
+import 'package:hacktheflow/backend/user.dart';
 import 'package:hacktheflow/colors.dart';
 import 'package:hacktheflow/widgets/profile_picture.dart';
 import 'package:hacktheflow/widgets/styled_text.dart';
 import 'package:hacktheflow/pages/chat_room.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+final supabase = Supabase.instance.client;
 
 class ProductViewPage extends StatefulWidget {
   final String id;
   final Listing listing;
-  final String name;
-  const ProductViewPage(
-      {super.key, required this.id, required this.listing, required this.name});
+  const ProductViewPage({super.key, required this.id, required this.listing});
 
   @override
   State<ProductViewPage> createState() => _ProductViewPageState();
@@ -71,12 +73,23 @@ class _ProductViewPageState extends State<ProductViewPage> {
                   ),
                 ),
                 const SizedBox(height: 32.0),
-                Row(
-                  children: [
-                    ProfilePicture(name: widget.listing.owner_id),
-                    const SizedBox(width: 8.0),
-                    LargeText(widget.name),
-                  ],
+                FutureBuilder(
+                  future: Future.wait([getUser(widget.id)]),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<AppUser>> snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    AppUser user = snapshot.data![0];
+                    return Row(
+                      children: [
+                        ProfilePicture(name: user.name),
+                        const SizedBox(width: 8.0),
+                        LargeText(user.name),
+                      ],
+                    );
+                  },
                 ),
                 const SizedBox(height: 32.0),
                 SubheaderText(widget.listing.desc),
@@ -95,9 +108,12 @@ class _ProductViewPageState extends State<ProductViewPage> {
           height: 80.0,
           child: TextButton(
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).push(
+                MaterialPageRoute(
                   builder: (context) =>
-                      ChatRoomPage(to_id: widget.listing.owner_id)));
+                      ChatRoomPage(to_id: widget.listing.owner_id),
+                ),
+              );
             },
             style: ButtonStyle(
               shape: MaterialStateProperty.all(
