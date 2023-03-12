@@ -24,6 +24,18 @@ class _HomeDiscoverPageState extends State<HomeDiscoverPage> {
   String search = "";
 
   List<Listing> listings = [];
+	List<Widget> search_for() {
+		List<Listing> lists = listings
+												.where(
+                          (list) => (list.desc + list.title).contains(search)).toList();
+		List<Widget> output = [];
+		for (Listing l in lists) {
+			output.add(ListingCard(id: l.id));
+		}
+		output.add(SizedBox(height: 80));
+		return output;
+	}
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -104,14 +116,9 @@ class _HomeDiscoverPageState extends State<HomeDiscoverPage> {
 
               Expanded(
                 child: ListView(
-                  children: listings
-                      .where(
-                          (list) => (list.desc + list.title).contains(search))
-                      .map((list) => ListingCard(id: list.id))
-                      .toList(),
-                ),
+                  children: search_for()
+								),
               ),
-							SizedBox(height: 75),
             ],
           ),
         );

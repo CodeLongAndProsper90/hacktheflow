@@ -81,7 +81,7 @@ Future<Listing> getListing(String id) async {
 Future<Listing> addListing({
     required String title, required String desc, required String owner, required double price, required List<XFile> images}) async {
   var data = await supabase.from("listings").insert(
-      {"title": title, "description": desc, "owner_id": owner}).select();
+      {"title": title, "description": desc, "owner_id": owner, "price":price}).select();
   Listing l = Listing.fromJSON(data[0]);
   int counter = 0;
   for (XFile img in images) {
