@@ -42,7 +42,7 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircleAvatar(
-                radius: 96.0,
+                radius: 86.0,
                 child: Text(
                   name.split(' ').map((e) {
                     if (e == '') return '';
@@ -55,49 +55,38 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
                 ),
               ),
               const SizedBox(height: 20.0),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 40.0,
-                ),
-                decoration: BoxDecoration(
-                  color: colorForeground,
-                  borderRadius: BorderRadius.circular(100.0),
-                ),
-                child: HeaderText(
-                  text: name,
-                  style: const TextStyle(color: colorBackground),
-                ),
-              ),
+              HeaderText(text: name),
               const SizedBox(height: 10.0),
               SubheaderText(cityName),
-							const SizedBox(height: 15.0),
-							TextButton(
-								child: Container(
-									padding: const EdgeInsets.symmetric(
-										vertical: 10.0,
-										horizontal: 20.0,
-									),
-									decoration: BoxDecoration(
-										color: Colors.red,
-										borderRadius: BorderRadius.circular(100.0),
-									),
-									child: Text(
-										"Sign out",
-										style: const TextStyle(color: colorBackground),
-									),
-								),
-								onPressed: () async {
-									await supabase.auth.signOut();
-									Navigator.of(context).push(MaterialPageRoute(builder: (context) => StartWidget(title: "Wynzo")));
-								}
-							),
-							TextButton(
-								child: Text("Add a listing"),
-								onPressed: () {
-									Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddListingPage()));
-								}
-							)
+              const SizedBox(height: 15.0),
+              SizedBox(height: 64.0),
+              TextButton(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 20.0,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(100.0),
+                    ),
+                    child: Text(
+                      "Sign out",
+                      style: const TextStyle(color: colorBackground),
+                    ),
+                  ),
+                  onPressed: () async {
+                    await supabase.auth.signOut();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => StartWidget(title: "Wynzo")));
+                  }),
+              SizedBox(height: 64.0),
+              // TextButton(
+              //     child: Text("Add a listing"),
+              //     onPressed: () {
+              //       Navigator.of(context).push(MaterialPageRoute(
+              //           builder: (context) => AddListingPage()));
+              //     })
             ],
           ),
         );
