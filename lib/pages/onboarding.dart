@@ -78,8 +78,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   // Lower portion
                   SizedBox(
                     // TODO: replace hardcoded value?
-                    height: screenHeight * 0.45,
-                    child: Column(
+                    height: screenHeight * 0.45 -
+                        MediaQuery.of(context).viewInsets.bottom,
+                    child: Wrap(
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
