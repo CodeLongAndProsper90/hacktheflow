@@ -30,7 +30,6 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     );
   }
 
-  final name = "John Doe";
   final status = "Online";
 
   @override
@@ -45,15 +44,18 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getUser(widget.to_id),
-      builder: (BuildContext context, AsyncSnapshot<AppUser> snapshot) {
+      future: Future.wait([getUser(widget.to_id), getUser(supabase.auth.currentUser!.id)]),
+      builder: (BuildContext context, AsyncSnapshot<List<AppUser>> snapshot) {
         if (!snapshot.hasData) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
 
-        AppUser user = snapshot.data!;
+        AppUser user = snapshot.data![0];
+				print(user.name);
+				AppUser me = snapshot.data![1];
+				print(me.name);
         return Scaffold(
           appBar: AppBar(
             toolbarHeight: 128.0,
@@ -88,7 +90,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                     Wrap(
                       direction: Axis.vertical,
                       children: [
-                        PageTitleText(name),
+                        PageTitleText(user.name),
                         BodyText(
                           status,
                           style: const TextStyle(color: colorHint),
@@ -119,7 +121,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
 
                 return ListView(
                     children: snapshot.data!
-                        .map((x) => makeBubble(x, user.name))
+                        .map((x) => makeBubble(x, x.mine ? me.name : user.name ))
                         .toList());
               }),
           bottomNavigationBar: Padding(
@@ -156,7 +158,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   ),
                 ),
                 // TODO: wrong name
-                labelText: 'Message $name',
+                labelText: 'Message ${user.name}',
                 labelStyle: const TextStyle(color: colorBackground),
                 border: OutlineInputBorder(
                   borderSide: const BorderSide(

@@ -35,23 +35,28 @@ class _HomeOpenChatsPageState extends State<HomeOpenChatsPage> {
           AppUser user = snapshot.data![0];
           List<Message> all_messages = snapshot.data![1];
           List<AppUser> all_users = snapshot.data![2];
+					print(all_users.map((x) => x.id));
 
-          Map<AppUser, List<Message>> msgs = {};
-          for (AppUser u in all_users) {
-            msgs[u] = [];
-            for (Message m in all_messages) {
-              if (m.rec_id == u.id) msgs[u]!.add(m);
-            }
-          }
+					List<Message> to_me = all_messages.where((msg) => msg.rec_id == user.id).toList();
+					
+					Map<AppUser, List<Message>> msgs = {};
+
+					for (Message m in to_me) {
+						AppUser sender = all_users.where((user) => user.id == m.sender_id).toList()[0];
+						if (msgs[sender] == null)
+							msgs[sender] = [];
+						msgs[sender]!.add(m);
+					}
 
           List<Map<String, dynamic>> chats = [];
           for (AppUser u in msgs.keys) {
             print(msgs[u]!.length);
             if (msgs[u]!.isNotEmpty) {
               List<Message> messages = msgs[u]!;
-              messages.sort((a, b) => a.created_at.compareTo(b.created_at));
+              messages.sort((b, a) => a.created_at.compareTo(b.created_at));
 
               final final_msg = messages[0];
+							print("u.id=${u.id}");
               chats.add({
                 "name": u.name,
                 "id": u.id,
@@ -96,6 +101,7 @@ class _HomeOpenChatsPageState extends State<HomeOpenChatsPage> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {
+																	print(chat);
                                   return ChatRoomPage(to_id: chat['id']);
                                 },
                               ),

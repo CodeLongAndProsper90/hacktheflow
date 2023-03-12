@@ -23,6 +23,7 @@ class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+			debugShowCheckedModeBanner: false,
       title: 'Wynzo',
       theme: ThemeData(
         fontFamily: 'Sansation',
