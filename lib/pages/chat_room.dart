@@ -78,7 +78,10 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                     CircleAvatar(
                       child: Text(
                         // TODO: name of other person
-                        name.split(' ').map((e) => e[0].toUpperCase()).join(''),
+                        user.name.split(' ').map((e) {
+													if (e == '') return '';
+													return e[0].toUpperCase();
+												}).join(''),
                       ),
                     ),
                     const SizedBox(width: 8.0),
@@ -107,7 +110,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             ),
           ),
           body: FutureBuilder(
-              future: getMessagesTo(supabase.auth.currentUser!.id),
+              future: getMessagesTo(user.id, supabase.auth.currentUser!.id),
               builder: (BuildContext context,
                   AsyncSnapshot<List<Message>> snapshot) {
                 if (!snapshot.hasData) {

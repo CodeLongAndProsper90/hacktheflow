@@ -20,7 +20,6 @@ class HomeDiscoverPage extends StatefulWidget {
 
 class _HomeDiscoverPageState extends State<HomeDiscoverPage> {
   final searchCon = TextEditingController();
-  final name = 'John Doe';
   String search = "";
 
   List<Listing> listings = [];

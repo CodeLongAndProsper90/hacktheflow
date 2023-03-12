@@ -18,10 +18,6 @@ class HomeProfilePage extends StatefulWidget {
 }
 
 class _HomeProfilePageState extends State<HomeProfilePage> {
-  final name = "John Doe";
-  final profilePicture = "idk_what_to_put_here";
-  final zipCode = 12345;
-
   Future<List<dynamic>> getData() async {
     var user = await getUser(supabase.auth.currentUser!.id);
     var zipStr = await getNameFromZip(user.zip);

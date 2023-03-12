@@ -51,10 +51,11 @@ Future<List<Message>> getAllMessages() async {
 	return msgs;
 }
 
-Future<List<Message>> getMessagesTo(String user_id) async {
-	var data = await supabase.from("messages").select<List<Map<String, dynamic>>>().eq("rec_id", user_id);
+Future<List<Message>> getMessagesTo(String user_id, String my_id) async {
+	List<Message> data = await getAllMessages();
 	List<Message> msgs = [];
-	for (Map<String, dynamic> json in data)
-		msgs.add(Message.fromJSON(json, supabase.auth.currentUser!.id));
+	for (Message m in data)
+		if (m.sender_id == my_id || m.sender_id == user_id || m.rec_id == user_id || m.rec_id == my_id)
+		msgs.add(m);
 	return msgs;
 }
