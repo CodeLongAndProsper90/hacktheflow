@@ -26,35 +26,13 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
-          horizontal: 20.0,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.red,
-          borderRadius: BorderRadius.circular(100.0),
-        ),
-        child: Text(
-          "Sign out",
-          style: const TextStyle(color: colorBackground),
-        ),
-      ),
-      onPressed: () async {
-        await supabase.auth.signOut();
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => StartWidget(title: "Wynzo")));
-      },
-    );
     return FutureBuilder(
       future: getData(),
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         }
-				if (snapshot.hasError)
-					print("ERROR IN PROFILE PAGE!!!");
+        if (snapshot.hasError) print("ERROR IN PROFILE PAGE!!!");
 
         AppUser user = snapshot.data![0];
         String cityName = snapshot.data![1];
