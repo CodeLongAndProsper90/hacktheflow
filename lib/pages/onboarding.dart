@@ -103,7 +103,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               ),
                               SizedBox(height: 16.0),
                               SubheaderText(
-                                'Wynzo connects your goods to your community. Lorem ipsum dolor sit amet.',
+                                'Wynzo connects your goods to your local community the easy way.',
                                 textAlign: TextAlign.center,
                               ),
                             ],
