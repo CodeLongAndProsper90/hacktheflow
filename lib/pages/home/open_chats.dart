@@ -19,18 +19,27 @@ class HomeOpenChatsPage extends StatefulWidget {
 }
 
 class _HomeOpenChatsPageState extends State<HomeOpenChatsPage> {
+	Future<List<dynamic>> getData() async {
+		String id = supabase.auth.currentUser!.id;
+		print("The id for chat is $id");
+		AppUser user = await getUser(id);
+		print("Got the user");
+		var messages = await getAllMessages();
+		print("Got the messages");
+		var users = await getAllUsers();
+		print("Got the users");
+		return [user, messages, users];
+	}
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: Future.wait([
-          getUser(supabase.auth.currentUser!.id),
-          getAllMessages(),
-          getAllUsers(),
-        ]),
-        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+        future: getData(),
+				builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
+					if (snapshot.hasError)
+						print("ERROR IN CHATPAGE!!!");
 
           AppUser user = snapshot.data![0];
           List<Message> all_messages = snapshot.data![1];

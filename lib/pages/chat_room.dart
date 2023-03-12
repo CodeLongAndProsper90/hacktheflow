@@ -61,6 +61,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             child: CircularProgressIndicator(),
           );
         }
+				if (snapshot.hasError)
+					print("ERROR IN CHAT LIST");
 
         AppUser user = snapshot.data![0];
         print(user.name);
@@ -128,6 +130,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
                 }
+								if (snapshot.hasError)
+									print("ERROR GETTING MESSAGES!!!");
 
                 return ListView(
                     children: snapshot.data!

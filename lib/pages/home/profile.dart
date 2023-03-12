@@ -53,6 +53,8 @@ class _HomeProfilePageState extends State<HomeProfilePage> {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         }
+				if (snapshot.hasError)
+					print("ERROR IN PROFILE PAGE!!!");
 
         AppUser user = snapshot.data![0];
         String cityName = snapshot.data![1];

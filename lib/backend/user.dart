@@ -37,11 +37,19 @@ class AppUser {
 }
 
 Future<AppUser> getUser(String id) async {
+	print("Calling supabase");
 	var data = await supabase.from("profiles").select<List<Map<String, dynamic>>>().eq("id", id);
-	return AppUser.fromJSON(data[0]);
+	print("Supabase called");
+	print(data);
+	return AppUser(
+		id: data[0]["id"],
+		zip: int.parse(data[0]["zip"]),
+		name: data[0]["name"]);
 }
 
 Future<List<AppUser>> getAllUsers() async {
+	print("Supabasing users");
 	var data = await supabase.from("profiles").select<List<Map<String, dynamic>>>();
-	return data.map((d) => AppUser.fromJSON(d)).toList();
+	print("Users are: $data");
+	return data.map((d) => AppUser(id: d["id"], zip: int.parse(d["zip"]), name: d["name"])).toList();
 }

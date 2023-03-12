@@ -26,6 +26,8 @@ class ListingCardState extends State<ListingCard> {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         }
+				if (snapshot.hasError)
+					print("ERROR IN LISTING CARD");
         print(snapshot.data);
         AppUser user = snapshot.data![0];
         Listing l = snapshot.data![1];

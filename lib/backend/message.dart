@@ -44,7 +44,9 @@ Future<void> send({required String to, required String contents}) async {
 }
 
 Future<List<Message>> getAllMessages() async {
+	print("Supabasing messages");
 	var data = await supabase.from("messages").select<List<Map<String, dynamic>>>();
+	print("Messages are: $data");
 	List<Message> msgs = [];
 	for (Map<String, dynamic> json in data)
 		msgs.add(Message.fromJSON(json, supabase.auth.currentUser!.id));

@@ -36,15 +36,28 @@ class _HomeDiscoverPageState extends State<HomeDiscoverPage> {
     return output;
   }
 
+	Future<List<dynamic>> getData() async {
+		print("I got called");
+		String id = supabase.auth.currentUser!.id;
+		print("Id is $id");
+		AppUser user = await getUser(id);
+		print("Got the user!");
+		var listing = await getAllListings();
+		return [user, listing];
+	}
   @override
   Widget build(BuildContext context) {
+		print("waiting on discover");
     return FutureBuilder(
-      future: Future.wait(
-          [getUser(supabase.auth.currentUser!.id), getAllListings()]),
-      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+      future: getData(),
+			builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (!snapshot.hasData) {
+					print("No data");
+					print(snapshot.data);
           return const Center(child: CircularProgressIndicator());
         }
+				if (snapshot.hasError)
+					print("ERROR IN LISTINGPAGE!!!");
         AppUser user = snapshot.data![0];
         listings = snapshot.data![1];
         print(listings);
