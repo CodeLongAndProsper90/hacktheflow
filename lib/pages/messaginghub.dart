@@ -12,9 +12,12 @@ class MessagingHub extends StatefulWidget {
     "mary": "descriptions2",
     "john": "descriptions3"
   };
+
   @override
-  MessagingHub createState() => MessagingHub();}
-  class MessagingHub extends State<MessagingHub> {
+  _MessagingHubState createState() => _MessagingHubState();
+}
+
+class _MessagingHubState extends State<MessagingHub> {
   // list -> int ->  to list of name of person and his description
   bool _isVisible = false;
   @override
@@ -49,7 +52,6 @@ class MessagingHub extends StatefulWidget {
                   ),
                   child: Row(
                     children: [
-                      
                       const Divider(
                         thickness: 2.0,
                         color: colorForegroundAlt,
@@ -59,7 +61,8 @@ class MessagingHub extends StatefulWidget {
                         children: [
                           const HeaderText(text: "George"),
                           const SizedBox(height: 5),
-                          const SmallText("listOfPeople[namesList[index]] as String")
+                          const SmallText(
+                              "listOfPeople[namesList[index]] as String")
                         ],
                       ),
                     ],
@@ -67,19 +70,19 @@ class MessagingHub extends StatefulWidget {
                 ),
                 const Spacer(),
                 ElevatedButton(
-                        onPressed: () {
-                          // ignore: invalid_use_of_protected_member
-                          setState(() {
-                            _isVisible = !_isVisible;
-                          });
-                        },
-                        child: const Icon(Icons.message_outlined),
-                      ),
+                  onPressed: () {
+                    // ignore: invalid_use_of_protected_member
+                    setState(() {
+                      _isVisible = !_isVisible;
+                    });
+                  },
+                  child: const Icon(Icons.message_outlined),
+                ),
                 AnimatedOpacity(
-                  opacity: _isVisible ? 1.0 : 0.0, 
-                  duration: const Duration(milliseconds: 200), 
+                  opacity: _isVisible ? 1.0 : 0.0,
+                  duration: const Duration(milliseconds: 200),
                   child: Messagepreveiw(),
-                  )
+                ),
               ],
             ),
           );
@@ -87,5 +90,4 @@ class MessagingHub extends StatefulWidget {
       ),
     );
   }
-}
 }
