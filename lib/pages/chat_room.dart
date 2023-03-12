@@ -5,6 +5,7 @@ import 'package:hacktheflow/widgets/styled_text.dart';
 import 'package:hacktheflow/backend/message.dart';
 import 'package:hacktheflow/backend/user.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:async';
 
 final supabase = Supabase.instance.client;
 
@@ -29,7 +30,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
       clientSent: d.mine,
     );
   }
-
+	late final Timer timer;
   final status = "Online";
 
   @override
@@ -37,8 +38,15 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     msgStream = supabase
         .from("messages")
         .stream(primaryKey: ["id"]).order("created_at");
+		timer = Timer.periodic(Duration(seconds: 1), (_) => setState((){}));
     super.initState();
   }
+
+	@override
+	void dispose() {
+		timer.cancel();
+		super.dispose();
+	}
 
   List<Map<String, dynamic>> messages_w = [];
   @override
