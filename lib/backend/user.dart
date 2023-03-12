@@ -7,20 +7,18 @@ final supabase = Supabase.instance.client;
 
 class AppUser {
   String id;
-  String username;
   int zip;
 	String name;
 
-  AppUser({required this.id, required this.username, required this.zip, required this.name});
+  AppUser({required this.id, required this.zip, required this.name});
 
   AppUser.fromJSON(Map<String, dynamic> d)
       : id = d["id"],
-        username = d["username"],
 				name = d["name"],
         zip = d["zip"];
 
   Map<String, dynamic> toJSON() {
-    return {"id": id, "username": username, "zip": zip, "name": name};
+    return {"id": id, "zip": zip, "name": name};
   }
 
   Future<Uint8List> getAvatar() async {

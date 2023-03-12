@@ -24,7 +24,6 @@ class _OnboardingSignupCardState extends State<OnboardingSignupCard> {
   final formKey = GlobalKey<FormState>();
   final emailCon = TextEditingController();
   final passCon = TextEditingController();
-  final userCon = TextEditingController();
   final zipCon = TextEditingController();
 	final nameCon = TextEditingController();
 
@@ -63,11 +62,6 @@ class _OnboardingSignupCardState extends State<OnboardingSignupCard> {
                           'Email',
                           emailCon,
                           keyboardType: TextInputType.emailAddress,
-                        ),
-                        const SizedBox(height: 15.0),
-                        styledTextFormField(
-                          'Username',
-                          userCon,
                         ),
                         const SizedBox(height: 15.0),
                         styledTextFormField(
@@ -127,7 +121,6 @@ class _OnboardingSignupCardState extends State<OnboardingSignupCard> {
     if (!isValid) return;
     final email = emailCon.text;
     final passwd = passCon.text;
-    final username = userCon.text;
     final zip = zipCon.text;
 		final name = nameCon.text;
 
@@ -135,7 +128,6 @@ class _OnboardingSignupCardState extends State<OnboardingSignupCard> {
       email: email,
       password: passwd,
       data: {
-        'username': username,
         'zipCode': int.parse(zip),
 				'name': name
       },
